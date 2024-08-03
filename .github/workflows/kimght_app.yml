@@ -1,0 +1,26 @@
+name: $kimght_app
+
+permissions: write-all
+
+on:
+  workflow_dispatch:
+#  push:
+#    branches:
+#      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+    - uses: hyoo-ru/mam_build@master2
+      with:
+        package: 'kimght'
+        modules: 'app'
+        
+    - uses: hyoo-ru/gh-deploy@v4.4.1
+      if: github.ref == 'refs/heads/master'
+      with:
+        folder: 'kimght/app/-'
