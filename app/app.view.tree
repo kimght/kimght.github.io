@@ -1,0 +1,11 @@
+$kimght_app $mol_book2_catalog
+	plugins /
+		<= Theme $mol_theme_auto
+	menu_title \Перевод лимбуса
+	menu_foot /
+		<= Sources $mol_link_source
+			uri \https://github.com/kimght/LimbusCompanyRuMTL
+		<= Lights $mol_lights_toggle
+	
+	spreads *
+		story <= Story $kimght_limbus_story

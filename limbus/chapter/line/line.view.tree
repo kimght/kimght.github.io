@@ -1,0 +1,31 @@
+$kimght_limbus_chapter_line $mol_list
+	line $kimght_limbus_chapter_line_data
+		language? <= language? \ru-mtl
+		
+	Place $mol_view
+		sub / <= location null
+	
+	Content $mol_row
+		sub <= content null
+	
+	Speaker $mol_view
+		sub /
+			<= Picture $mol_image
+				uri <= picture_uri \null
+				title \
+				minimal_width 128
+				minimal_width 128
+			
+			<= Name $mol_view
+				sub / <= name \???
+	
+	Controls $mol_list
+		rows / 
+			<= ToggleOriginal $mol_check_icon
+				Icon <= ToggleOriginal_icon $mol_icon_earth
+				checked? <=> show_original? false
+	
+	Text $mol_view
+		sub / <= text \
+		style *
+			color <= text_color \null

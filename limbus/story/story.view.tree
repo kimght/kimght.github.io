@@ -1,0 +1,27 @@
+$kimght_limbus_story $mol_book2
+	Chapters_list_page $mol_page
+		title \📕 История
+		body /
+			<= Chapters_list $mol_tag_tree
+				Item* <= Item* $mol_link
+					arg *
+						chapter <= chapter_slug* \
+					sub /
+						<= item_title* \
+					
+				tag_name* <= tag_name* \
+				
+				levels_expanded 0
+				ids_tags * 
+					^ toc *
+	
+	Chapter_link!id $mol_link
+		arg *
+			chapter <= chapter_id!id
+		sub /
+			<= chapter_title!id
+	
+	Chapter_page!id $kimght_limbus_chapter_page
+		chapter_id <= chapter_id!id \
+		title <= chapter_title!id \
+		Next_link <= next_link!id null

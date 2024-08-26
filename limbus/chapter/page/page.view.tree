@@ -1,0 +1,27 @@
+$kimght_limbus_chapter_page $mol_page
+	title \
+	chapter_id \
+	
+	Line!index $kimght_limbus_chapter_line
+		line <= line!index $kimght_limbus_chapter_line_data
+	
+	Lines $mol_list
+		rows <= lines_list null
+	
+	tools /
+		<= Language_select $mol_select
+			value? <=> language? \ru_mtl
+			dictionary <= languages *
+				en \Английский
+				kr \Корейский
+				jp \Японский
+				ru_mtl \Русский (MTL)
+				ru_crescent \Русский (Crescent)
+				
+	body /
+		<= Prev_link
+		<= Lines
+		<= Next_link
+	
+	Next_link null
+	Prev_link null
