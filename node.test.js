@@ -8817,6 +8817,13 @@ var $;
             line(index) {
                 return this.lines()[index];
             }
+            language(next) {
+                if (next) {
+                    this.$.$mol_state_local.value("$kimght_limbus_language", String(next));
+                    return next;
+                }
+                return this.$.$mol_state_local.value("$kimght_limbus_language") || "ru_mtl";
+            }
         }
         __decorate([
             $mol_mem
@@ -8827,6 +8834,9 @@ var $;
         __decorate([
             $mol_mem_key
         ], $kimght_limbus_chapter_page.prototype, "line", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_chapter_page.prototype, "language", null);
         $$.$kimght_limbus_chapter_page = $kimght_limbus_chapter_page;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
