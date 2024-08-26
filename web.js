@@ -7604,6 +7604,7 @@ var $;
         jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/NickName.json",
         ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusLocalizeRU/release/RU/NickName.json",
         ru_crescent: "https://raw.githubusercontent.com/Crescent-Corporation/LimbusCompanyBusRUS/LC_branch_ORIGINAL/Localize/RU/NickName.json",
+        ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Localize/RU/NickName.json",
     };
     class $kimght_limbus_character extends $mol_object2 {
         static item({ id, language }) {
@@ -7687,6 +7688,7 @@ var $;
         kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/KR/StoryData",
         ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusLocalizeRU/release/RU/StoryData",
         ru_crescent: "https://raw.githubusercontent.com/Crescent-Corporation/LimbusCompanyBusRUS/LC_branch_ORIGINAL/Localize/RU/StoryData",
+        ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Localize/RU/StoryData"
     };
     $.$kimght_limbus_chapter_json = $mol_data_array($.$kimght_limbus_chapter_line_json);
     const Chapter_data = $mol_data_record({
@@ -8120,7 +8122,8 @@ var $;
 				"kr": "Корейский", 
 				"jp": "Японский", 
 				"ru_mtl": "Русский (MTL)", 
-				"ru_crescent": "Русский (Crescent)"
+				"ru_crescent": "Русский (Crescent)", 
+				"ru_divine": "Русский (Divine)"
 			};
 		}
 		Language_select(){
@@ -10789,7 +10792,7 @@ var $;
 		}
 		Info_text(){
 			const obj = new this.$.$mol_text();
-			(obj.text) = () => ("![Тубаретка](/kimght/images/tubaretka.webp)\n\n# Полезные ссылки\n\n* [Машинный русификатор Limbus Company](https://github.com/kimght/LimbusCompanyRuMTL)\n* [Ручной русификатор от Crescent-Corporation](https://github.com/Crescent-Corporation/LimbusCompanyBusRUS)\n* [Оригинальный китайский мод](https://github.com/LocalizeLimbusCompany/LocalizeLimbusCompany)\n\n# Хонорабле ментион\n* Датамайн: **lunartique07**\n* Правки: **KJHater**, **DAFTPUSiK**");
+			(obj.text) = () => ("![Тубаретка](/kimght/images/tubaretka.webp)\n\n# Полезные ссылки\n\n* [Машинный русификатор](https://github.com/kimght/LimbusCompanyRuMTL)\n* [Ручной русификатор от Crescent-Corporation](https://github.com/Crescent-Corporation/LimbusCompanyBusRUS)\n* [Ручной русификатор от Divine-Company](https://github.com/Divine-Company/DivineCompany_RussianTranslationDepartment)\n* [Оригинальный китайский мод](https://github.com/LocalizeLimbusCompany/LocalizeLimbusCompany)\n\n# Хонорабле ментион\n* Датамайн: **lunartique07**\n* Правки: **KJHater**, **DAFTPUSiK**");
 			return obj;
 		}
 		Info(){
