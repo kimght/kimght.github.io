@@ -12,6 +12,12 @@ namespace $.$$ {
 				basis: "50rem"
 			}
 		},
+		
+		Info: {
+			flex: {
+				basis: "30rem"
+			}
+		}
 	} )
 	
 }

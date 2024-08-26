@@ -9,3 +9,19 @@ $kimght_app $mol_book2_catalog
 	
 	spreads *
 		story <= Story $kimght_limbus_story
+		info <= Info $mol_page
+			title \✨ Информация
+			body /
+				<= Info_text $mol_text
+					text \
+						\![Тубаретка](/kimght/images/tubaretka.webp)
+						\
+						\# Полезные ссылки
+						\
+						\* [Машинный русификатор Limbus Company](https://github.com/kimght/LimbusCompanyRuMTL)
+						\* [Ручной русификатор от Crescent-Corporation](https://github.com/Crescent-Corporation/LimbusCompanyBusRUS)
+						\* [Оригинальный китайский мод](https://github.com/LocalizeLimbusCompany/LocalizeLimbusCompany)
+						\
+						\# Хонорабле ментион
+						\* Датамайн: **lunartique07**
+						\* Правки: **KJHater**, **DAFTPUSiK**
