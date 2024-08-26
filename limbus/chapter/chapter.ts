@@ -16,6 +16,7 @@ namespace $ {
 		kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/KR/StoryData",
 		ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusLocalizeRU/release/RU/StoryData",
 		ru_crescent: "https://raw.githubusercontent.com/Crescent-Corporation/LimbusCompanyBusRUS/LC_branch_ORIGINAL/Localize/RU/StoryData",
+		ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Localize/RU/StoryData"
 	}
 	
 	export const $kimght_limbus_chapter_json = $mol_data_array( 

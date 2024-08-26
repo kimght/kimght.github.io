@@ -17,6 +17,7 @@ $kimght_limbus_chapter_page $mol_page
 				jp \Японский
 				ru_mtl \Русский (MTL)
 				ru_crescent \Русский (Crescent)
+				ru_divine \Русский (Divine)
 				
 	body /
 		<= Prev_link

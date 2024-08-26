@@ -20,6 +20,7 @@ namespace $ {
 		jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/NickName.json",
 		ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusLocalizeRU/release/RU/NickName.json",
 		ru_crescent: "https://raw.githubusercontent.com/Crescent-Corporation/LimbusCompanyBusRUS/LC_branch_ORIGINAL/Localize/RU/NickName.json",
+		ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Localize/RU/NickName.json",
 	}
 	
 	export class $kimght_limbus_character extends $mol_object2 {
