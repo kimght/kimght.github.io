@@ -21,6 +21,16 @@ namespace $.$$ {
 			return this.lines()[ index ]
 		}
 		
+		@ $mol_mem
+		language( next?: any ) {
+			if ( next ) {
+				this.$.$mol_state_local.value<string>( "$kimght_limbus_language", String( next ) )
+				return next
+			}
+			
+			return this.$.$mol_state_local.value<string>( "$kimght_limbus_language" ) || "ru_mtl"
+		}
+
 	}
 	
 }
