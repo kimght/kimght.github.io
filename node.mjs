@@ -7856,6 +7856,8 @@ var $;
                 justify: { content: "center", },
             },
             Name: {
+                wordBreak: "break-word",
+                hyphens: "auto",
                 position: "absolute",
                 zIndex: 1,
                 padding: $mol_gap.text,
