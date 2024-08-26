@@ -8970,7 +8970,7 @@ var $;
                 return `Эпизод ${episode_no + 1}`;
             }
             chapters_url() {
-                return "https://gist.githubusercontent.com/kimght/7049a925e4d0c33517cde112103758f8/raw/2c9249622d6025e73a97b1f612b3f80f98368576/chapters_list.json";
+                return "https://gist.githubusercontent.com/kimght/7049a925e4d0c33517cde112103758f8/raw/chapters_list.json";
             }
             chapters() {
                 return Chapters_data($mol_fetch.json(this.chapters_url())).chapters;
