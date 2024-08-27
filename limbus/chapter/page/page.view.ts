@@ -30,6 +30,20 @@ namespace $.$$ {
 			
 			return this.$.$mol_state_local.value<string>( "$kimght_limbus_language" ) || "ru_mtl"
 		}
+		
+		@ $mol_mem
+		content_language() {
+			const languages = {
+				"ru_mtl": "ru",
+				"ru_crescent": "ru",
+				"ru_divine": "ru",
+				"en": "en",
+				"jp": "jp",
+				"kr": "kr",
+			}
+			
+			return languages[ this.language() as keyof typeof languages ] ?? "en"
+		}
 
 	}
 	

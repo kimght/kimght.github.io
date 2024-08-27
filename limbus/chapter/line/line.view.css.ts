@@ -26,6 +26,7 @@ namespace $.$$ {
 		gap: $mol_gap.block,
 		
 		Text: {
+			wordBreak: "break-word",
 			background: { color: $mol_theme.card, },
 			border: { radius: $mol_gap.round, },
 			padding: $mol_gap.text,

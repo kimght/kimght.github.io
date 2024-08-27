@@ -9,6 +9,7 @@ namespace $ {
 	} )
 	
 	const color_markup = /<color=(#\w+)>(.*?)<\/color>/s
+	const tag_markup = /<(\w+)[=\w#.]*>(.*?)<\/\1>/s
 	
 	const chapter_prefix_urls = {
 		en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/EN/StoryData",
@@ -84,7 +85,7 @@ namespace $ {
 		
 		@ $mol_mem
 		text() {
-			return this.json()?.content?.replace( color_markup, ( _, color, text ) => text )
+			return this.json()?.content?.replace( tag_markup, ( _, tag, text ) => text )
 		}
 		
 		@ $mol_mem
