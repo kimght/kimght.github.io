@@ -3,3 +3,4 @@ deploy \/kimght/images/logo-32x32.webp
 deploy \/kimght/images/logo-48x48.webp
 deploy \/kimght/images/logo-180x180.webp
 deploy \/kimght/images/tubaretka.webp
+include \/mol/offline/install
