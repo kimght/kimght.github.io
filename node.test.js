@@ -7831,6 +7831,7 @@ var $;
             },
             gap: $mol_gap.block,
             Text: {
+                wordBreak: "break-word",
                 background: { color: $mol_theme.card, },
                 border: { radius: $mol_gap.round, },
                 padding: $mol_gap.text,
@@ -8309,6 +8310,7 @@ var $;
         id: $mol_data_optional($mol_data_number),
     });
     const color_markup = /<color=(#\w+)>(.*?)<\/color>/s;
+    const tag_markup = /<(\w+)[=\w#.]*>(.*?)<\/\1>/s;
     const chapter_prefix_urls = {
         en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/EN/StoryData",
         jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/JP/StoryData",
@@ -8363,7 +8365,7 @@ var $;
             return this.json()?.place;
         }
         text() {
-            return this.json()?.content?.replace(color_markup, (_, color, text) => text);
+            return this.json()?.content?.replace(tag_markup, (_, tag, text) => text);
         }
         color() {
             return this.json()?.content?.match(color_markup)?.[1];
@@ -8739,6 +8741,9 @@ var $;
 		lines_list(){
 			return null;
 		}
+		content_language(){
+			return "";
+		}
 		language(next){
 			if(next !== undefined) return next;
 			return "ru_mtl";
@@ -8773,6 +8778,7 @@ var $;
 		Lines(){
 			const obj = new this.$.$mol_list();
 			(obj.rows) = () => ((this?.lines_list()));
+			(obj.attr) = () => ({"lang": (this?.content_language())});
 			return obj;
 		}
 		tools(){
@@ -8829,6 +8835,17 @@ var $;
                 }
                 return this.$.$mol_state_local.value("$kimght_limbus_language") || "ru_mtl";
             }
+            content_language() {
+                const languages = {
+                    "ru_mtl": "ru",
+                    "ru_crescent": "ru",
+                    "ru_divine": "ru",
+                    "en": "en",
+                    "jp": "jp",
+                    "kr": "kr",
+                };
+                return languages[this.language()] ?? "en";
+            }
         }
         __decorate([
             $mol_mem
@@ -8842,6 +8859,9 @@ var $;
         __decorate([
             $mol_mem
         ], $kimght_limbus_chapter_page.prototype, "language", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_chapter_page.prototype, "content_language", null);
         $$.$kimght_limbus_chapter_page = $kimght_limbus_chapter_page;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));

@@ -522,6 +522,8 @@ $kimght_limbus_chapter_page $mol_page
 	
 	Lines $mol_list
 		rows <= lines_list null
+		attr *
+			lang <= content_language \
 	
 	tools /
 		<= Language_select $mol_select
