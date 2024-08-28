@@ -447,7 +447,7 @@ $kimght_limbus_chapter_line $mol_list
 				uri <= picture_uri \null
 				title \
 				minimal_width 128
-				minimal_width 128
+				minimal_height 128
 			
 			<= Name $mol_view
 				sub / <= name \???
@@ -538,11 +538,15 @@ $kimght_limbus_chapter_page $mol_page
 				
 	body /
 		<= Prev_link
+		<= Art_pre
 		<= Lines
+		<= Art_post
 		<= Next_link
 	
 	Next_link null
 	Prev_link null
+	Art_pre null
+	Art_post null
 
 $kimght_limbus_story $mol_book2
 	Chapters_list_page $mol_page
@@ -571,6 +575,33 @@ $kimght_limbus_story $mol_book2
 		chapter_id <= chapter_id!id \
 		title <= chapter_title!id \
 		Next_link <= next_link!id null
+
+$kimght_limbus_identity_page $mol_book2
+	Identities_list_page $mol_page
+		title \🧑‍💼 Идентичности
+		body /
+			<= Identities_list $mol_tag_tree
+				Item* <= Item* $mol_link
+					arg *
+						chapter <= identity_slug* \
+					sub /
+						<= item_title* \
+				
+				levels_expanded 0
+				ids_tags * 
+					^ toc *
+	
+	Identity_page!id $kimght_limbus_chapter_page
+		chapter_id <= identity_id!id \
+		title <= identity_title!id \
+		
+		Art_pre <= Identity_base_art!id $mol_image
+			uri <= identity_base_art_url!id \null
+			title <= identity_title!id \
+			
+		Art_post <= Identity_uptie_art!id $mol_image
+			uri <= identity_uptie_art_url!id \null
+			title <= identity_title!id \
 
 $mol_stack $mol_view
 
@@ -909,6 +940,7 @@ $kimght_app $mol_book2_catalog
 	
 	spreads *
 		story <= Story $kimght_limbus_story
+		ids <= Identities $kimght_limbus_identity_page
 		info <= Info $mol_page
 			title \✨ Информация
 			body /

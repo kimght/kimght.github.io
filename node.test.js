@@ -7684,7 +7684,7 @@ var $;
 			(obj.uri) = () => ((this?.picture_uri()));
 			(obj.title) = () => ("");
 			(obj.minimal_width) = () => (128);
-			(obj.minimal_width) = () => (128);
+			(obj.minimal_height) = () => (128);
 			return obj;
 		}
 		name(){
@@ -7830,6 +7830,7 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
+        const { rem, px } = $mol_style_unit;
         $mol_style_define($kimght_limbus_chapter_line, {
             justify: {
                 content: "space-between",
@@ -7841,13 +7842,13 @@ var $;
                 border: { radius: $mol_gap.round, },
             },
             Picture: {
-                width: "128px",
-                height: "128px",
+                width: px(128),
+                height: px(128),
                 border: { radius: $mol_gap.round, },
                 background: { color: $mol_theme.card, },
             },
             Content: {
-                padding: "0px"
+                padding: px(0),
             },
             gap: $mol_gap.block,
             Text: {
@@ -7858,7 +7859,7 @@ var $;
                 flex: {
                     grow: 100,
                     shrink: 1,
-                    basis: "10rem",
+                    basis: rem(10),
                 },
                 align: {
                     self: "stretch",
@@ -8807,7 +8808,9 @@ var $;
 		body(){
 			return [
 				(this?.Prev_link()), 
+				(this?.Art_pre()), 
 				(this?.Lines()), 
+				(this?.Art_post()), 
 				(this?.Next_link())
 			];
 		}
@@ -8815,6 +8818,12 @@ var $;
 			return null;
 		}
 		Prev_link(){
+			return null;
+		}
+		Art_pre(){
+			return null;
+		}
+		Art_post(){
 			return null;
 		}
 	};
@@ -9107,20 +9116,257 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
+        const { rem } = $mol_style_unit;
         $mol_style_define($kimght_limbus_story, {
             Chapters_list_page: {
                 flex: {
-                    basis: "20rem"
+                    basis: rem(20),
                 }
             },
             Chapter_page: {
                 flex: {
-                    basis: "50rem",
+                    basis: rem(50),
                 }
             },
             Chapter_link: {
                 color: $mol_theme.special,
             }
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $.$kimght_limbus_identity_json = $mol_data_record({
+        id: $mol_data_number,
+        title: $mol_data_string,
+        name: $mol_data_string,
+    });
+    const Identity_data = $mol_data_record({
+        dataList: $mol_data_array($.$kimght_limbus_identity_json),
+    });
+    const identity_list_url = "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/EN/Personalities.json";
+    const identity_art_prefix_url = "https://raw.githubusercontent.com/kimght/LimbusStoryImages/main";
+    class $kimght_limbus_identity extends $mol_object2 {
+        static item(id) {
+            const obj = new this;
+            obj.id = $mol_const(id);
+            return obj;
+        }
+        static list() {
+            return Identity_data($mol_fetch.json(this.list_url())).dataList
+                .filter(identity => identity.name !== "Vergilius")
+                .filter(identity => identity.title !== "LCB\nSinner");
+        }
+        static list_url() {
+            return identity_list_url;
+        }
+        static art_prefix_url() {
+            return identity_art_prefix_url;
+        }
+        json(next) {
+            if (!next) {
+                next = this.$.$kimght_limbus_identity
+                    .list()
+                    .find(next => next.id === this.id());
+            }
+            return next;
+        }
+        id() {
+            return 0;
+        }
+        title() {
+            return this.json()?.title;
+        }
+        name() {
+            return this.json()?.name;
+        }
+        art_base_url() {
+            return `${this.$.$kimght_limbus_identity.art_prefix_url()}/identity_${this.id()}_base.webp`;
+        }
+        art_uptie_url() {
+            return `${this.$.$kimght_limbus_identity.art_prefix_url()}/identity_${this.id()}_uptie.webp`;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $kimght_limbus_identity.prototype, "json", null);
+    __decorate([
+        $mol_mem_key
+    ], $kimght_limbus_identity, "item", null);
+    __decorate([
+        $mol_mem
+    ], $kimght_limbus_identity, "list", null);
+    $.$kimght_limbus_identity = $kimght_limbus_identity;
+})($ || ($ = {}));
+
+;
+	($.$kimght_limbus_identity_page) = class $kimght_limbus_identity_page extends ($.$mol_book2) {
+		identity_slug(id){
+			return "";
+		}
+		item_title(id){
+			return "";
+		}
+		Item(id){
+			const obj = new this.$.$mol_link();
+			(obj.arg) = () => ({"chapter": (this?.identity_slug(id))});
+			(obj.sub) = () => ([(this?.item_title(id))]);
+			return obj;
+		}
+		toc(){
+			return {};
+		}
+		Identities_list(){
+			const obj = new this.$.$mol_tag_tree();
+			(obj.Item) = (id) => ((this?.Item(id)));
+			(obj.levels_expanded) = () => (0);
+			(obj.ids_tags) = () => ({...(this.toc())});
+			return obj;
+		}
+		identity_id(id){
+			return "";
+		}
+		identity_title(id){
+			return "";
+		}
+		identity_base_art_url(id){
+			return "null";
+		}
+		Identity_base_art(id){
+			const obj = new this.$.$mol_image();
+			(obj.uri) = () => ((this?.identity_base_art_url(id)));
+			(obj.title) = () => ((this?.identity_title(id)));
+			return obj;
+		}
+		identity_uptie_art_url(id){
+			return "null";
+		}
+		Identity_uptie_art(id){
+			const obj = new this.$.$mol_image();
+			(obj.uri) = () => ((this?.identity_uptie_art_url(id)));
+			(obj.title) = () => ((this?.identity_title(id)));
+			return obj;
+		}
+		Identities_list_page(){
+			const obj = new this.$.$mol_page();
+			(obj.title) = () => ("🧑‍💼 Идентичности");
+			(obj.body) = () => ([(this?.Identities_list())]);
+			return obj;
+		}
+		Identity_page(id){
+			const obj = new this.$.$kimght_limbus_chapter_page();
+			(obj.chapter_id) = () => ((this?.identity_id(id)));
+			(obj.title) = () => ((this?.identity_title(id)));
+			(obj.Art_pre) = () => ((this?.Identity_base_art(id)));
+			(obj.Art_post) = () => ((this?.Identity_uptie_art(id)));
+			return obj;
+		}
+	};
+	($mol_mem_key(($.$kimght_limbus_identity_page.prototype), "Item"));
+	($mol_mem(($.$kimght_limbus_identity_page.prototype), "Identities_list"));
+	($mol_mem_key(($.$kimght_limbus_identity_page.prototype), "Identity_base_art"));
+	($mol_mem_key(($.$kimght_limbus_identity_page.prototype), "Identity_uptie_art"));
+	($mol_mem(($.$kimght_limbus_identity_page.prototype), "Identities_list_page"));
+	($mol_mem_key(($.$kimght_limbus_identity_page.prototype), "Identity_page"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $kimght_limbus_identity_page extends $.$kimght_limbus_identity_page {
+            pages() {
+                return [
+                    this.Identities_list_page(),
+                    ...this.current_chapter(),
+                ];
+            }
+            toc() {
+                const identities = this.$.$kimght_limbus_identity.list();
+                const identities_toc = {};
+                for (const identity of identities) {
+                    identities_toc[identity.id.toString()] = [identity.name];
+                }
+                return identities_toc;
+            }
+            item_title(path) {
+                return this.$.$kimght_limbus_identity
+                    .item(+path.at(-1))
+                    .title() ?? "";
+            }
+            chapter_active() {
+                const slug = this.$.$mol_state_arg.value("chapter");
+                if (!slug)
+                    return null;
+                return slug;
+            }
+            current_chapter() {
+                if (this.chapter_active() !== null) {
+                    return [this.Identity_page(this.chapter_active())];
+                }
+                return [];
+            }
+            identity_id(id) {
+                return id;
+            }
+            identity_slug(id) {
+                return `P${id.at(-1)}`;
+            }
+            identity_base_art_url(id) {
+                return this.$.$kimght_limbus_identity.item(+id.slice(1)).art_base_url();
+            }
+            identity_uptie_art_url(id) {
+                return this.$.$kimght_limbus_identity.item(+id.slice(1)).art_uptie_url();
+            }
+            identity_title(id) {
+                return this.$.$kimght_limbus_identity.item(+id.slice(1)).title() ?? "";
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_identity_page.prototype, "pages", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_identity_page.prototype, "toc", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_identity_page.prototype, "chapter_active", null);
+        __decorate([
+            $mol_mem_key
+        ], $kimght_limbus_identity_page.prototype, "identity_id", null);
+        __decorate([
+            $mol_mem_key
+        ], $kimght_limbus_identity_page.prototype, "identity_slug", null);
+        $$.$kimght_limbus_identity_page = $kimght_limbus_identity_page;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        const { rem } = $mol_style_unit;
+        $mol_style_define($kimght_limbus_identity_page, {
+            Identities_list_page: {
+                flex: {
+                    basis: rem(20)
+                }
+            },
+            Identity_page: {
+                flex: {
+                    basis: rem(50),
+                }
+            },
         });
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -11457,6 +11703,10 @@ var $;
 			const obj = new this.$.$kimght_limbus_story();
 			return obj;
 		}
+		Identities(){
+			const obj = new this.$.$kimght_limbus_identity_page();
+			return obj;
+		}
 		Info_text(){
 			const obj = new this.$.$mol_text();
 			(obj.text) = () => ("![Тубаретка](/kimght/images/tubaretka.webp)\n\n# Полезные ссылки\n\n* [Машинный русификатор](https://github.com/kimght/LimbusCompanyRuMTL)\n* [Ручной русификатор от Crescent-Corporation](https://github.com/Crescent-Corporation/LimbusCompanyBusRUS)\n* [Ручной русификатор от Divine-Company](https://github.com/Divine-Company/DivineCompany_RussianTranslationDepartment)\n* [Оригинальный китайский мод](https://github.com/LocalizeLimbusCompany/LocalizeLimbusCompany)\n\n# Хонорабле ментион\n* Датамайн: **lunartique07**\n* Правки: **KJHater**, **DAFTPUSiK**");
@@ -11478,13 +11728,18 @@ var $;
 			return [(this?.Sources()), (this?.Lights())];
 		}
 		spreads(){
-			return {"story": (this?.Story()), "info": (this?.Info())};
+			return {
+				"story": (this?.Story()), 
+				"ids": (this?.Identities()), 
+				"info": (this?.Info())
+			};
 		}
 	};
 	($mol_mem(($.$kimght_app.prototype), "Theme"));
 	($mol_mem(($.$kimght_app.prototype), "Sources"));
 	($mol_mem(($.$kimght_app.prototype), "Lights"));
 	($mol_mem(($.$kimght_app.prototype), "Story"));
+	($mol_mem(($.$kimght_app.prototype), "Identities"));
 	($mol_mem(($.$kimght_app.prototype), "Info_text"));
 	($mol_mem(($.$kimght_app.prototype), "Info"));
 
@@ -11537,20 +11792,26 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
+        const { rem } = $mol_style_unit;
         $mol_style_define($kimght_app, {
             Menu: {
                 flex: {
-                    basis: "20rem",
+                    basis: rem(20),
                 }
             },
             Story: {
                 flex: {
-                    basis: "50rem"
+                    basis: rem(50)
+                }
+            },
+            Identities: {
+                flex: {
+                    basis: rem(50)
                 }
             },
             Info: {
                 flex: {
-                    basis: "30rem"
+                    basis: rem(30)
                 }
             }
         });
