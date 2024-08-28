@@ -1,15 +1,17 @@
 namespace $.$$ {
+
+	const { rem } = $mol_style_unit
 	
 	$mol_style_define( $kimght_limbus_story, {
 		Chapters_list_page: {
 			flex: {
-				basis: "20rem"
+				basis: rem( 20 ),
 			}
 		},
 		
 		Chapter_page: {
 			flex: {
-				basis: "50rem",
+				basis: rem( 50 ),
 			}
 		},
 

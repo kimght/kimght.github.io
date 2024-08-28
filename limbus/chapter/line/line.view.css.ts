@@ -1,4 +1,6 @@
 namespace $.$$ {
+
+	const { rem, px } = $mol_style_unit
 	
 	$mol_style_define( $kimght_limbus_chapter_line, {
 		justify: {
@@ -13,14 +15,14 @@ namespace $.$$ {
 		},
 		
 		Picture: {
-			width: "128px",
-			height: "128px",
+			width: px( 128 ),
+			height: px( 128 ),
 			border: { radius: $mol_gap.round, },
 			background: { color: $mol_theme.card, },
 		},
 		
 		Content: {
-			padding: "0px"
+			padding: px( 0 ),
 		},
 		
 		gap: $mol_gap.block,
@@ -33,7 +35,7 @@ namespace $.$$ {
 			flex: {
 				grow: 100,
 				shrink: 1,
-				basis: "10rem",
+				basis: rem( 10 ),
 			},
 			align: {
 				self: "stretch",

@@ -23,8 +23,12 @@ $kimght_limbus_chapter_page $mol_page
 				
 	body /
 		<= Prev_link
+		<= Art_pre
 		<= Lines
+		<= Art_post
 		<= Next_link
 	
 	Next_link null
 	Prev_link null
+	Art_pre null
+	Art_post null

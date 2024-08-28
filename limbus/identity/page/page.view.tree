@@ -1,0 +1,26 @@
+$kimght_limbus_identity_page $mol_book2
+	Identities_list_page $mol_page
+		title \🧑‍💼 Идентичности
+		body /
+			<= Identities_list $mol_tag_tree
+				Item* <= Item* $mol_link
+					arg *
+						chapter <= identity_slug* \
+					sub /
+						<= item_title* \
+				
+				levels_expanded 0
+				ids_tags * 
+					^ toc *
+	
+	Identity_page!id $kimght_limbus_chapter_page
+		chapter_id <= identity_id!id \
+		title <= identity_title!id \
+		
+		Art_pre <= Identity_base_art!id $mol_image
+			uri <= identity_base_art_url!id \null
+			title <= identity_title!id \
+			
+		Art_post <= Identity_uptie_art!id $mol_image
+			uri <= identity_uptie_art_url!id \null
+			title <= identity_title!id \

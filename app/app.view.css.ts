@@ -1,21 +1,29 @@
 namespace $.$$ {
 	
+	const { rem } = $mol_style_unit
+	
 	$mol_style_define( $kimght_app, {
 		Menu: {
 			flex: {
-				basis: "20rem",
+				basis: rem( 20 ),
 			}
 		},
 		
 		Story: {
 			flex: {
-				basis: "50rem"
+				basis: rem( 50 )
 			}
 		},
 		
+		Identities: {
+			flex: {
+				basis: rem( 50 )
+			}
+		},
+
 		Info: {
 			flex: {
-				basis: "30rem"
+				basis: rem( 30 )
 			}
 		}
 	} )

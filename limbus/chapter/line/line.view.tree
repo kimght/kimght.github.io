@@ -14,7 +14,7 @@ $kimght_limbus_chapter_line $mol_list
 				uri <= picture_uri \null
 				title \
 				minimal_width 128
-				minimal_width 128
+				minimal_height 128
 			
 			<= Name $mol_view
 				sub / <= name \???
