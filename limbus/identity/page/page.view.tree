@@ -1,6 +1,6 @@
 $kimght_limbus_identity_page $mol_book2
 	Identities_list_page $mol_page
-		title \🧑‍💼 Идентичности
+		title \🧑 Идентичности
 		body /
 			<= Identities_list $mol_tag_tree
 				Item* <= Item* $mol_link
