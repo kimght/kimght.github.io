@@ -9261,7 +9261,7 @@ var $;
 		}
 		Identities_list_page(){
 			const obj = new this.$.$mol_page();
-			(obj.title) = () => ("🧑‍💼 Идентичности");
+			(obj.title) = () => ("🧑 Идентичности");
 			(obj.body) = () => ([(this?.Identities_list())]);
 			return obj;
 		}
