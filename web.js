@@ -9280,18 +9280,14 @@ var $;
                 if (!this.search()) {
                     return null;
                 }
-                const options = this.search().split(/\s+/g).filter(Boolean);
-                if (!options.length)
-                    return null;
-                const variants = { ...options };
-                return $mol_regexp.from({ needle: variants }, { ignoreCase: true });
+                return $mol_regexp.from(this.search(), { ignoreCase: true });
             }
             toc() {
                 const search = this.search_regex();
                 const identities = this.$.$kimght_limbus_identity.list();
                 const identities_toc = {};
                 for (const identity of identities) {
-                    if (search === null || identity.title.match(search)) {
+                    if (search === null || identity.title.match(search) !== null) {
                         identities_toc[identity.id.toString()] = [identity.name];
                     }
                 }
