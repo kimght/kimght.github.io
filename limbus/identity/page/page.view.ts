@@ -3,6 +3,25 @@ namespace $.$$ {
 	// TODO: Можно было бы и объеденить с $kimght_limbus_story
 	export class $kimght_limbus_identity_page extends $.$kimght_limbus_identity_page {
 		@ $mol_mem
+		search( next?: string ) {
+			if ( next === undefined ) next = ""
+
+			if ( next.length === 0 ) {
+				this.toc_levels_expanded( 0 )
+			} else {
+				this.toc_levels_expanded( 1 )
+			}
+
+			return next || ""
+		}
+
+		@ $mol_mem
+		toc_levels_expanded( next?: number ) {
+			if ( !next ) return 0
+			return next
+		}
+
+		@ $mol_mem
 		pages() {
 			return [
 				this.Identities_list_page(),
@@ -11,12 +30,27 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
+		search_regex() {
+			if ( !this.search() ) {
+				return null
+			}
+			
+			const options = this.search().split( /\s+/g ).filter( Boolean )
+			if ( !options.length ) return null
+			const variants = { ... options } as Record< number, string >
+			return $mol_regexp.from( { needle: variants }, { ignoreCase: true } )
+		}
+		
+		@ $mol_mem
 		toc() {
+			const search = this.search_regex()
 			const identities = this.$.$kimght_limbus_identity.list()
 			const identities_toc: { [key: string]: string[] } = {}
 			
 			for ( const identity of identities ) {
-				identities_toc[ identity.id.toString() ] = [ identity.name ]
+				if ( search === null || identity.title.match( search ) ) {
+					identities_toc[ identity.id.toString() ] = [ identity.name ]
+				}
 			}
 			
 			return identities_toc

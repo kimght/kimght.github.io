@@ -9,6 +9,16 @@ namespace $.$$ {
 			}
 		},
 
+		Identities_search: {
+			align: {
+				self: "stretch"
+			},
+			flex: {
+				grow: 0,
+				shrink: 0,
+			}
+		},
+
 		Identity_page: {
 			flex: {
 				basis: rem( 50 ),
