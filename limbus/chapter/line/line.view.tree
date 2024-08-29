@@ -1,4 +1,5 @@
 $kimght_limbus_chapter_line $mol_list
+	highlight \
 	line $kimght_limbus_chapter_line_data
 		language? <= language? \ru-mtl
 		
@@ -25,7 +26,8 @@ $kimght_limbus_chapter_line $mol_list
 				Icon <= ToggleOriginal_icon $mol_icon_earth
 				checked? <=> show_original? false
 	
-	Text $mol_view
-		sub / <= text \
+	Text $mol_dimmer
+		haystack <= text \
+		needle <= highlight
 		style *
 			color <= text_color \null

@@ -4,6 +4,7 @@ $kimght_limbus_chapter_page $mol_page
 	
 	Line!index $kimght_limbus_chapter_line
 		line <= line!index $kimght_limbus_chapter_line_data
+		highlight <= search
 	
 	Lines $mol_list
 		rows <= lines_list null
@@ -11,6 +12,13 @@ $kimght_limbus_chapter_page $mol_page
 			lang <= content_language \
 	
 	tools /
+		<= Copy_button $mol_button_copy
+			text <= chapter_id
+			hint \Скопировать
+		<= Search_toggle $mol_check_icon
+			hint \Поиск
+			Icon <= Search_toggle_icon $mol_icon_magnify
+			checked?val <=> search_enabled?val false
 		<= Language_select $mol_select
 			value? <=> language? \ru_mtl
 			dictionary <= languages *
@@ -20,7 +28,15 @@ $kimght_limbus_chapter_page $mol_page
 				ru_mtl \Русский (MTL)
 				ru_crescent \Русский (Crescent)
 				ru_divine \Русский (Divine)
-				
+	
+	head /
+		<= Title
+		<= Tools
+		<= Search $mol_search_jumper
+			query?val <=> search?val \
+			Root <= Body
+			escape?val <=> search_end?val null
+	
 	body /
 		<= Prev_link
 		<= Art_pre
@@ -32,3 +48,9 @@ $kimght_limbus_chapter_page $mol_page
 	Prev_link null
 	Art_pre null
 	Art_post null
+	
+	plugins /
+		<= Hotkeys $mol_hotkey
+			mod_ctrl true
+			key *
+				F?event <=> search_start?event null

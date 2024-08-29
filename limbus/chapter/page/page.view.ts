@@ -45,6 +45,40 @@ namespace $.$$ {
 			return languages[ this.language() as keyof typeof languages ] ?? "en"
 		}
 
+		@ $mol_mem
+		search_enabled( next?: boolean ) {
+			if ( next === undefined ) {
+				return false
+			}
+			
+			if ( next ) {
+				this.Search().Query().focused( true )
+			} else {
+				this.search( "" )
+			}
+			
+			return next
+		}
+
+		search_start( event: Event ) {
+			this.search_enabled( true )
+			event.preventDefault()
+		}
+		
+		search_end( event: Event ) {
+			this.search_enabled( false )
+			this.Search_toggle().focused( true )
+			event.preventDefault()
+		}
+		
+		head() {
+			return [
+				this.Title(),
+				this.Tools(),
+				... this.search_enabled() ? [ this.Search() ] : [],
+			]
+		}
+		
 	}
 	
 }
