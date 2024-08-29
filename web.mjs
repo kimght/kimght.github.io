@@ -9154,17 +9154,35 @@ var $;
 
 ;
 	($.$kimght_limbus_identity_page) = class $kimght_limbus_identity_page extends ($.$mol_book2) {
+		search(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		Identities_search(){
+			const obj = new this.$.$mol_search();
+			(obj.query) = (next) => ((this?.search(next)));
+			return obj;
+		}
 		identity_slug(id){
 			return "";
 		}
 		item_title(id){
 			return "";
 		}
+		Item_content(id){
+			const obj = new this.$.$mol_dimmer();
+			(obj.haystack) = () => ((this?.item_title(id)));
+			(obj.needle) = () => ((this?.search()));
+			return obj;
+		}
 		Item(id){
 			const obj = new this.$.$mol_link();
 			(obj.arg) = () => ({"chapter": (this?.identity_slug(id))});
-			(obj.sub) = () => ([(this?.item_title(id))]);
+			(obj.sub) = () => ([(this?.Item_content(id))]);
 			return obj;
+		}
+		toc_levels_expanded(){
+			return 0;
 		}
 		toc(){
 			return {};
@@ -9172,7 +9190,7 @@ var $;
 		Identities_list(){
 			const obj = new this.$.$mol_tag_tree();
 			(obj.Item) = (id) => ((this?.Item(id)));
-			(obj.levels_expanded) = () => (0);
+			(obj.levels_expanded) = () => ((this?.toc_levels_expanded()));
 			(obj.ids_tags) = () => ({...(this.toc())});
 			return obj;
 		}
@@ -9203,7 +9221,7 @@ var $;
 		Identities_list_page(){
 			const obj = new this.$.$mol_page();
 			(obj.title) = () => ("🧑 Идентичности");
-			(obj.body) = () => ([(this?.Identities_list())]);
+			(obj.body) = () => ([(this?.Identities_search()), (this?.Identities_list())]);
 			return obj;
 		}
 		Identity_page(id){
@@ -9215,6 +9233,9 @@ var $;
 			return obj;
 		}
 	};
+	($mol_mem(($.$kimght_limbus_identity_page.prototype), "search"));
+	($mol_mem(($.$kimght_limbus_identity_page.prototype), "Identities_search"));
+	($mol_mem_key(($.$kimght_limbus_identity_page.prototype), "Item_content"));
 	($mol_mem_key(($.$kimght_limbus_identity_page.prototype), "Item"));
 	($mol_mem(($.$kimght_limbus_identity_page.prototype), "Identities_list"));
 	($mol_mem_key(($.$kimght_limbus_identity_page.prototype), "Identity_base_art"));
@@ -9233,17 +9254,46 @@ var $;
     var $$;
     (function ($$) {
         class $kimght_limbus_identity_page extends $.$kimght_limbus_identity_page {
+            search(next) {
+                if (next === undefined)
+                    next = "";
+                if (next.length === 0) {
+                    this.toc_levels_expanded(0);
+                }
+                else {
+                    this.toc_levels_expanded(1);
+                }
+                return next || "";
+            }
+            toc_levels_expanded(next) {
+                if (!next)
+                    return 0;
+                return next;
+            }
             pages() {
                 return [
                     this.Identities_list_page(),
                     ...this.current_chapter(),
                 ];
             }
+            search_regex() {
+                if (!this.search()) {
+                    return null;
+                }
+                const options = this.search().split(/\s+/g).filter(Boolean);
+                if (!options.length)
+                    return null;
+                const variants = { ...options };
+                return $mol_regexp.from({ needle: variants }, { ignoreCase: true });
+            }
             toc() {
+                const search = this.search_regex();
                 const identities = this.$.$kimght_limbus_identity.list();
                 const identities_toc = {};
                 for (const identity of identities) {
-                    identities_toc[identity.id.toString()] = [identity.name];
+                    if (search === null || identity.title.match(search)) {
+                        identities_toc[identity.id.toString()] = [identity.name];
+                    }
                 }
                 return identities_toc;
             }
@@ -9282,7 +9332,16 @@ var $;
         }
         __decorate([
             $mol_mem
+        ], $kimght_limbus_identity_page.prototype, "search", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_identity_page.prototype, "toc_levels_expanded", null);
+        __decorate([
+            $mol_mem
         ], $kimght_limbus_identity_page.prototype, "pages", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_identity_page.prototype, "search_regex", null);
         __decorate([
             $mol_mem
         ], $kimght_limbus_identity_page.prototype, "toc", null);
@@ -9310,6 +9369,15 @@ var $;
             Identities_list_page: {
                 flex: {
                     basis: rem(20)
+                }
+            },
+            Identities_search: {
+                align: {
+                    self: "stretch"
+                },
+                flex: {
+                    grow: 0,
+                    shrink: 0,
                 }
             },
             Identity_page: {

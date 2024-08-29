@@ -658,14 +658,18 @@ $kimght_limbus_identity_page $mol_book2
 	Identities_list_page $mol_page
 		title \🧑 Идентичности
 		body /
+			<= Identities_search $mol_search
+				query? <=> search? \
 			<= Identities_list $mol_tag_tree
 				Item* <= Item* $mol_link
 					arg *
 						chapter <= identity_slug* \
 					sub /
-						<= item_title* \
+						<= Item_content* $mol_dimmer
+							haystack <= item_title* \
+							needle <= search
 				
-				levels_expanded 0
+				levels_expanded <= toc_levels_expanded 0
 				ids_tags * 
 					^ toc *
 	
