@@ -35,10 +35,10 @@ namespace $.$$ {
 				return null
 			}
 			
-			const options = this.search().split( /\s+/g ).filter( Boolean )
-			if ( !options.length ) return null
-			const variants = { ... options } as Record< number, string >
-			return $mol_regexp.from( { needle: variants }, { ignoreCase: true } )
+			return $mol_regexp.from(
+				this.search(),
+				{ ignoreCase: true }
+			)
 		}
 		
 		@ $mol_mem
@@ -48,8 +48,8 @@ namespace $.$$ {
 			const identities_toc: { [key: string]: string[] } = {}
 			
 			for ( const identity of identities ) {
-				if ( search === null || identity.title.match( search ) ) {
-					identities_toc[ identity.id.toString() ] = [ identity.name ]
+				if ( search === null || identity.title.match( search ) !== null ) {
+					identities_toc[identity.id.toString()] = [identity.name]
 				}
 			}
 			
