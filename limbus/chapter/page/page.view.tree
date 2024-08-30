@@ -2,8 +2,8 @@ $kimght_limbus_chapter_page $mol_page
 	title \
 	chapter_id \
 	
-	Line!index $kimght_limbus_chapter_line
-		line <= line!index $kimght_limbus_chapter_line_data
+	Line* $kimght_limbus_chapter_line
+		line <= line* $kimght_limbus_chapter_line_data
 		highlight <= search
 	
 	Lines $mol_list
@@ -18,7 +18,7 @@ $kimght_limbus_chapter_page $mol_page
 		<= Search_toggle $mol_check_icon
 			hint \Поиск
 			Icon <= Search_toggle_icon $mol_icon_magnify
-			checked?val <=> search_enabled?val false
+			checked? <=> search_enabled? false
 		<= Language_select $mol_select
 			value? <=> language? \ru_mtl
 			dictionary <= languages *
@@ -33,9 +33,9 @@ $kimght_limbus_chapter_page $mol_page
 		<= Title
 		<= Tools
 		<= Search $mol_search_jumper
-			query?val <=> search?val \
+			query? <=> search? \
 			Root <= Body
-			escape?val <=> search_end?val null
+			escape? <=> search_end? null
 	
 	body /
 		<= Prev_link
@@ -53,4 +53,4 @@ $kimght_limbus_chapter_page $mol_page
 		<= Hotkeys $mol_hotkey
 			mod_ctrl true
 			key *
-				F?event <=> search_start?event null
+				F? <=> search_start? null

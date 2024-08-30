@@ -17,14 +17,14 @@ $kimght_limbus_identity_page $mol_book2
 				ids_tags * 
 					^ toc *
 	
-	Identity_page!id $kimght_limbus_chapter_page
-		chapter_id <= identity_id!id \
-		title <= identity_title!id \
+	Identity_page* $kimght_limbus_chapter_page
+		chapter_id <= identity_id* \
+		title <= identity_title* \
 		
-		Art_pre <= Identity_base_art!id $mol_image
-			uri <= identity_base_art_url!id \null
-			title <= identity_title!id \
+		Art_pre <= Identity_base_art* $mol_image
+			uri <= identity_base_art_url* \null
+			title <= identity_title* \
 			
-		Art_post <= Identity_uptie_art!id $mol_image
-			uri <= identity_uptie_art_url!id \null
-			title <= identity_title!id \
+		Art_post <= Identity_uptie_art* $mol_image
+			uri <= identity_uptie_art_url* \null
+			title <= identity_title* \

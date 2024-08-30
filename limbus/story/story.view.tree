@@ -15,13 +15,13 @@ $kimght_limbus_story $mol_book2
 				ids_tags * 
 					^ toc *
 	
-	Chapter_link!id $mol_link
+	Chapter_link* $mol_link
 		arg *
-			chapter <= chapter_id!id
+			chapter <= chapter_id*
 		sub /
-			<= chapter_title!id
+			<= chapter_title*
 	
-	Chapter_page!id $kimght_limbus_chapter_page
-		chapter_id <= chapter_id!id \
-		title <= chapter_title!id \
-		Next_link <= next_link!id null
+	Chapter_page* $kimght_limbus_chapter_page
+		chapter_id <= chapter_id* \
+		title <= chapter_title* \
+		Next_link <= next_link* null

@@ -85,7 +85,7 @@ namespace $.$$ {
 		
 		@ $mol_mem_key
 		identity_slug( id: readonly string[] ) {
-			return `P${id.at(-1)!}`
+			return `P${ id.at(-1)! }`
 		}
 		
 		identity_base_art_url( id: string ) {
