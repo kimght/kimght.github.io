@@ -1004,9 +1004,10 @@ var $;
                 return right_cache;
         }
         else {
-            left_cache = new WeakMap([[right, true]]);
+            left_cache = new WeakMap();
             $.$mol_compare_deep_cache.set(left, left_cache);
         }
+        left_cache.set(right, true);
         let result;
         try {
             if (!left_proto)
@@ -9530,12 +9531,12 @@ var $;
                 return slug;
             }
             item_title(path) {
+                const [, episode] = path.at(-1).split("_");
+                if (path.length == 1) {
+                    return this.episode_chapter(episode)?.name ?? `Эпизод ${episode}`;
+                }
                 const [chapter_id] = path[0][0].split("_", 2);
                 const chapter = this.chapters()[+chapter_id];
-                if (!chapter) {
-                    return path.at(-1);
-                }
-                const [, episode] = path.at(-1).split("_");
                 const episode_no = chapter.episodes.indexOf(episode);
                 return `Эпизод ${episode_no + 1}`;
             }
