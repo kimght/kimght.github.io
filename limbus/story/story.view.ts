@@ -53,15 +53,15 @@ namespace $.$$ {
 
 		@ $mol_mem_key
 		item_title( path: readonly string[] ) {
+			const [, episode] = path.at(-1)!.split( "_" )
+			
+			if ( path.length == 1 ) {
+				return this.episode_chapter( episode )?.name ?? `Эпизод ${ episode }`
+			}
+			
 			const [ chapter_id ] = path[0][0].split( "_", 2 )
 			
 			const chapter = this.chapters()[ +chapter_id ]
-			
-			if ( !chapter ) {
-				return path.at(-1) as string
-			}
-			
-			const [, episode] = path.at(-1)!.split( "_" )
 			const episode_no = chapter.episodes.indexOf( episode )
 			return `Эпизод ${ episode_no + 1 }`
 		}
