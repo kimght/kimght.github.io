@@ -5,7 +5,7 @@ namespace $ {
 		teller: $mol_data_optional( $mol_data_string ),
 		title:  $mol_data_optional( $mol_data_string ),
 		content:  $mol_data_optional( $mol_data_string ),
-		id: $mol_data_optional( $mol_data_number ),
+		id: $mol_data_optional( $mol_data_nullable( $mol_data_number ) ),
 	} )
 	
 	const color_markup = /<color=(#\w+)>(.*?)<\/color>/s
