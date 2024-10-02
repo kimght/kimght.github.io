@@ -229,6 +229,7 @@
     "$kimght_limbus_identity",
     "$kimght_limbus_note_list",
     "$kimght_limbus_note",
+    "$kimght_tag_tree",
     "$kimght_tag",
     "$kimght_limbus_note_page",
     "$kimght_limbus_note_block",

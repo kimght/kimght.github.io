@@ -10062,7 +10062,72 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$kimght_tag_tree) = class $kimght_tag_tree extends ($.$mol_tag_tree) {};
+	($.$kimght_tag_tree) = class $kimght_tag_tree extends ($.$mol_list) {
+		tag_list(){
+			return [];
+		}
+		item_list(){
+			return [];
+		}
+		item_title(id){
+			return "";
+		}
+		tag_expanded(id, next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		tag_name(id){
+			return "";
+		}
+		tag_path(id){
+			return [];
+		}
+		Tag_tree(id){
+			const obj = new this.$.$kimght_tag_tree();
+			(obj.ids_tags) = () => ((this?.ids_tags()));
+			(obj.path) = () => ((this?.tag_path(id)));
+			(obj.Item) = (id) => ((this?.Item(id)));
+			(obj.item_title) = (id) => ((this?.item_title(id)));
+			(obj.tag_expanded) = (id, next) => ((this?.tag_expanded(id, next)));
+			(obj.tag_name) = (id) => ((this?.tag_name(id)));
+			return obj;
+		}
+		path(){
+			return [];
+		}
+		ids_tags(){
+			return {};
+		}
+		ids(){
+			return [];
+		}
+		tags(){
+			return [];
+		}
+		levels_expanded(){
+			return 0;
+		}
+		sub(){
+			return [...(this.tag_list()), ...(this.item_list())];
+		}
+		Item(id){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this?.item_title(id))]);
+			return obj;
+		}
+		Tag(id){
+			const obj = new this.$.$mol_expander();
+			(obj.expandable) = () => (true);
+			(obj.expanded) = (next) => ((this?.tag_expanded(id, next)));
+			(obj.title) = () => ((this?.tag_name(id)));
+			(obj.content) = () => ([(this?.Tag_tree(id))]);
+			return obj;
+		}
+	};
+	($mol_mem_key(($.$kimght_tag_tree.prototype), "tag_expanded"));
+	($mol_mem_key(($.$kimght_tag_tree.prototype), "Tag_tree"));
+	($mol_mem_key(($.$kimght_tag_tree.prototype), "Item"));
+	($mol_mem_key(($.$kimght_tag_tree.prototype), "Tag"));
 
 
 ;
@@ -10139,6 +10204,48 @@ var $;
             $mol_mem_key
         ], $kimght_tag_tree.prototype, "tag_expanded", null);
         $$.$kimght_tag_tree = $kimght_tag_tree;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("kimght/tag/tree/tree.view.css", "[kimght_tag_tree_tag_content] {\n\tpadding-left: var(--mol_gap_block);\n\tmargin-left: var(--mol_gap_block);\n\tbox-shadow: inset 1px 0 0 0 var(--mol_theme_line);\n}\n\n[kimght_tag_tree_item] {\n\tpadding: var(--mol_gap_text);\n\tpadding-left: 0;\n}\n\n[kimght_tag_tree_tag_trigger_icon] {\n\tmargin-left: -1rem;\n\tmargin-right: -0.25rem;\n}\n");
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        const { rem, px } = $mol_style_unit;
+        $mol_style_define($kimght_tag_tree, {
+            Tag: {
+                Content: {
+                    padding: { left: $mol_gap.block },
+                    margin: { left: $mol_gap.block },
+                    boxShadow: `inset 1px 0 0 0 ${$mol_theme.line}`,
+                },
+                Trigger: {
+                    Icon: {
+                        margin: {
+                            left: rem(-1),
+                            right: rem(-0.25),
+                        }
+                    }
+                }
+            },
+            Item: {
+                padding: {
+                    top: $mol_gap.text,
+                    right: $mol_gap.text,
+                    bottom: $mol_gap.text,
+                    left: 0,
+                },
+            },
+        });
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
