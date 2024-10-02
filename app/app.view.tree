@@ -10,6 +10,7 @@ $kimght_app $mol_book2_catalog
 	spreads *
 		story <= Story $kimght_limbus_story
 		ids <= Identities $kimght_limbus_identity_page
+		notes <= Notes $kimght_limbus_note_list
 		info <= Info $mol_page
 			title \✨ Информация
 			body /

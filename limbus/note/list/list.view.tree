@@ -1,0 +1,17 @@
+$kimght_limbus_note_list $mol_book2
+	Notes_list_page $mol_page
+		title \📝 Записки
+		body /
+			<= Notes_list $kimght_tag_tree
+				Item* <= Item* $mol_link
+					arg *
+						folder <= note_folder* \
+					sub /
+						<= item_title* \
+				
+				levels_expanded 0
+				ids_tags <= toc
+	
+	Note_page* $kimght_limbus_note_page
+		prefix <= note_folder* \
+		title <= folder_title* \

@@ -1,0 +1,47 @@
+$kimght_limbus_note_page $mol_page
+	title \Limbus Company
+	prefix \Limbus Company
+	
+	Blocks $mol_list
+		rows <= notes_list null
+		attr *
+			lang <= content_language \
+	
+	Block* $kimght_limbus_note_block
+		note <= note* $kimght_limbus_note_data
+		highlight <= search
+	
+	tools /
+		<= Copy_button $mol_button_copy
+			text <= chapter_id
+			hint \Скопировать
+		<= Search_toggle $mol_check_icon
+			hint \Поиск
+			Icon <= Search_toggle_icon $mol_icon_magnify
+			checked? <=> search_enabled? false
+		<= Language_select $mol_select
+			value? <=> language? \ru_mtl
+			dictionary <= languages *
+				en \Английский
+				kr \Корейский
+				jp \Японский
+				ru_mtl \Русский (MTL)
+				ru_crescent \Русский (Crescent)
+				ru_divine \Русский (Divine)
+	
+	head /
+		<= Title
+		<= Tools
+		<= Search $mol_search_jumper
+			query? <=> search? \
+			Root <= Body
+			escape? <=> search_end? null
+	
+	body /
+		<= Blocks
+	
+	plugins /
+		<= Hotkeys $mol_hotkey
+			mod_ctrl true
+			key *
+				F? <=> search_start? null

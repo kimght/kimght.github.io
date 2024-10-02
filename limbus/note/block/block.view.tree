@@ -1,0 +1,10 @@
+$kimght_limbus_note_block $mol_view
+	highlight \
+	content \
+	note $kimght_limbus_note_data
+		language? <= language? \ru-mtl
+	
+	sub /
+		<= Text $mol_dimmer
+			haystack <= text \
+			needle <= highlight
