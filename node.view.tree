@@ -685,6 +685,85 @@ $kimght_limbus_identity_page $mol_book2
 			uri <= identity_uptie_art_url* \null
 			title <= identity_title* \
 
+$kimght_tag_tree $mol_tag_tree
+
+$kimght_limbus_note_block $mol_view
+	highlight \
+	content \
+	note $kimght_limbus_note_data
+		language? <= language? \ru-mtl
+	
+	sub /
+		<= Text $mol_dimmer
+			haystack <= text \
+			needle <= highlight
+
+$kimght_limbus_note_page $mol_page
+	title \Limbus Company
+	prefix \Limbus Company
+	
+	Blocks $mol_list
+		rows <= notes_list null
+		attr *
+			lang <= content_language \
+	
+	Block* $kimght_limbus_note_block
+		note <= note* $kimght_limbus_note_data
+		highlight <= search
+	
+	tools /
+		<= Copy_button $mol_button_copy
+			text <= chapter_id
+			hint \Скопировать
+		<= Search_toggle $mol_check_icon
+			hint \Поиск
+			Icon <= Search_toggle_icon $mol_icon_magnify
+			checked? <=> search_enabled? false
+		<= Language_select $mol_select
+			value? <=> language? \ru_mtl
+			dictionary <= languages *
+				en \Английский
+				kr \Корейский
+				jp \Японский
+				ru_mtl \Русский (MTL)
+				ru_crescent \Русский (Crescent)
+				ru_divine \Русский (Divine)
+	
+	head /
+		<= Title
+		<= Tools
+		<= Search $mol_search_jumper
+			query? <=> search? \
+			Root <= Body
+			escape? <=> search_end? null
+	
+	body /
+		<= Blocks
+	
+	plugins /
+		<= Hotkeys $mol_hotkey
+			mod_ctrl true
+			key *
+				F? <=> search_start? null
+
+$kimght_limbus_note_list $mol_book2
+	Notes_list_page $mol_page
+		title \📝 Записки
+		body /
+			<= Notes_list $kimght_tag_tree
+				Item* <= Item* $mol_link
+					arg *
+						folder <= note_folder* \
+					sub /
+						<= item_title* \
+				
+				levels_expanded 0
+				ids_tags <= toc
+	
+	Note_page* $kimght_limbus_note_page
+		prefix <= note_folder* \
+		title <= folder_title* \
+
 $mol_stack $mol_view
 
 $mol_text_code_token $mol_dimmer
@@ -1005,6 +1084,7 @@ $kimght_app $mol_book2_catalog
 	spreads *
 		story <= Story $kimght_limbus_story
 		ids <= Identities $kimght_limbus_identity_page
+		notes <= Notes $kimght_limbus_note_list
 		info <= Info $mol_page
 			title \✨ Информация
 			body /

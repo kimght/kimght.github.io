@@ -1280,7 +1280,8 @@ var $;
                         break reuse;
                     return existen;
                 }
-                const next = new $mol_wire_task(`${host?.[Symbol.toStringTag] ?? host}.${task.name}<#>`, task, host, args);
+                const key = (host?.[Symbol.toStringTag] ?? host) + ('.' + task.name + '<#>');
+                const next = new $mol_wire_task(key, task, host, args);
                 if (existen?.temp) {
                     $$.$mol_log3_warn({
                         place: '$mol_wire_task',
@@ -1397,7 +1398,7 @@ var $;
             if (existen)
                 return existen;
             const prefix = host?.[Symbol.toStringTag] ?? (host instanceof Function ? $$.$mol_func_name(host) : host);
-            const key = `${prefix}.${field}`;
+            const key = prefix + ('.' + field);
             const fiber = new $mol_wire_atom(key, task, host, []);
             (host ?? task)[field] = fiber;
             return fiber;
@@ -1415,7 +1416,7 @@ var $;
             else {
                 dict = (host ?? task)[field] = new Map();
             }
-            const id = `${prefix}.${task.name}<${key_str.replace(/^"|"$/g, "'")}>`;
+            const id = prefix + ('.' + task.name) + ('<' + key_str.replace(/^"|"$/g, "'") + '>');
             const fiber = new $mol_wire_atom(id, task, host, [key]);
             dict.set(key_str, fiber);
             return fiber;
@@ -9403,6 +9404,660 @@ var $;
 })($ || ($ = {}));
 
 ;
+"use strict";
+var $;
+(function ($) {
+    $.$kimght_limbus_note_meta_json = $mol_data_record({
+        chapter_files: $mol_data_array($mol_data_string),
+        notes: $mol_data_array($mol_data_record({
+            path: $mol_data_array($mol_data_string),
+            notes: $mol_data_array($mol_data_string),
+        }))
+    });
+    $.$kimght_limbus_note_json = $mol_data_record({
+        id: $mol_data_string,
+        desc: $mol_data_string,
+    });
+    const Notes_data = $mol_data_record({
+        dataList: $mol_data_array($.$kimght_limbus_note_json),
+    });
+    const notes_meta_url = "https://gist.githubusercontent.com/kimght/e5d67c491961eae85f50765a1f337356/raw/dante_notes.json";
+    const notes_prefix_urls = {
+        en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/EN",
+        jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/JP",
+        kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/KR",
+        ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusLocalizeRU/release/RU",
+        ru_crescent: "https://raw.githubusercontent.com/Crescent-Corporation/LimbusCompanyBusRUS/LC_branch_ORIGINAL/Localize/RU",
+        ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Localize/RU"
+    };
+    class $kimght_limbus_note_data extends $mol_object2 {
+        static item({ id, language }) {
+            const obj = new this;
+            obj.id = $mol_const(id);
+            obj.language = $mol_const(language);
+            return obj;
+        }
+        id() {
+            return "";
+        }
+        language() {
+            return "en";
+        }
+        desc() {
+            return this.json()?.desc || "";
+        }
+        prefix() {
+            const meta = this.$.$kimght_limbus_note_data.meta();
+            const category = meta.notes.find(note => note.notes.includes(this.id()));
+            if (!category)
+                return "";
+            return category.path.join("/");
+        }
+        json(next) {
+            if (!next) {
+                next = $kimght_limbus_note_data.all(this.language())
+                    .find(note => note.id === this.id());
+            }
+            return next;
+        }
+        static all(language) {
+            if (!(language in notes_prefix_urls)) {
+                console.warn(`Language ${language} is not supported. Using English fallback.`);
+                language = "en";
+            }
+            const uri = notes_prefix_urls[language];
+            const chapter_files = $kimght_limbus_note_data.meta().chapter_files;
+            let result = [];
+            for (const file of chapter_files) {
+                const url = `${uri}/${file}`;
+                const data = Notes_data($mol_fetch.json(url)).dataList;
+                result = [...result, ...data];
+            }
+            return result;
+        }
+        static list({ language, prefix }) {
+            if (!(language in notes_prefix_urls)) {
+                console.warn(`Language ${language} is not supported. Using English fallback.`);
+                language = "en";
+            }
+            if (prefix instanceof Array) {
+                prefix = prefix.join("/");
+            }
+            const meta = this.$.$kimght_limbus_note_data.meta();
+            const category = meta.notes.find(note => note.path.join("/") === prefix);
+            if (!category)
+                return [];
+            return category.notes.map(id => this.item({ id, language }));
+        }
+        static meta() {
+            return $.$kimght_limbus_note_meta_json($mol_fetch.json(notes_meta_url));
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $kimght_limbus_note_data.prototype, "prefix", null);
+    __decorate([
+        $mol_mem
+    ], $kimght_limbus_note_data.prototype, "json", null);
+    __decorate([
+        $mol_mem_key
+    ], $kimght_limbus_note_data, "item", null);
+    __decorate([
+        $mol_mem_key
+    ], $kimght_limbus_note_data, "all", null);
+    __decorate([
+        $mol_mem_key
+    ], $kimght_limbus_note_data, "list", null);
+    __decorate([
+        $mol_mem
+    ], $kimght_limbus_note_data, "meta", null);
+    $.$kimght_limbus_note_data = $kimght_limbus_note_data;
+})($ || ($ = {}));
+
+;
+	($.$kimght_tag_tree) = class $kimght_tag_tree extends ($.$mol_tag_tree) {};
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $kimght_tag_tree extends $.$kimght_tag_tree {
+            ids() {
+                const prefix = this.path().join('/');
+                const ids_tags = this.ids_tags();
+                return Object.keys(ids_tags).filter(id => ids_tags[id].some((tag) => tag.startsWith(prefix)));
+            }
+            item_list() {
+                const path = this.path();
+                const grouped = new Set(this.tags().flatMap(tag => this.Tag_tree(tag).ids()));
+                return this.ids()
+                    .filter(id => !grouped.has(id))
+                    .sort($mol_compare_text())
+                    .map(id => this.Item([...path, id]));
+            }
+            tags() {
+                const stat = new Map();
+                const ids_tags = this.ids_tags();
+                const ids = this.ids();
+                const prefix = this.path().join('/');
+                for (let id of ids) {
+                    for (let tag of ids_tags[id]) {
+                        if (prefix && !tag.startsWith(prefix + '/'))
+                            continue;
+                        tag = tag.slice(prefix.length).replace(/^\//, '');
+                        stat.set(tag, (stat.get(tag) ?? 0) + 1);
+                    }
+                }
+                const prefixes = [...new Set([...stat.keys()].map(tag => tag.replace(/\/.*/, '')))].sort($mol_compare_text());
+                return prefixes;
+            }
+            tag_list() {
+                return this.tags().map(tag => this.Tag([tag]));
+            }
+            tag_path(id) {
+                return [...this.path(), id];
+            }
+            tag_expanded(id, next) {
+                return next ?? this.tag_expanded_default(id);
+            }
+            tag_expanded_default(id) {
+                return this.levels_expanded() >= id.length;
+            }
+            tag_name(id) {
+                return id;
+            }
+            item_title(id) {
+                return id.at(-1);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $kimght_tag_tree.prototype, "ids", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_tag_tree.prototype, "item_list", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_tag_tree.prototype, "tags", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_tag_tree.prototype, "tag_list", null);
+        __decorate([
+            $mol_mem_key
+        ], $kimght_tag_tree.prototype, "tag_expanded", null);
+        $$.$kimght_tag_tree = $kimght_tag_tree;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$kimght_limbus_note_block) = class $kimght_limbus_note_block extends ($.$mol_view) {
+		language(next){
+			if(next !== undefined) return next;
+			return "ru-mtl";
+		}
+		text(){
+			return "";
+		}
+		Text(){
+			const obj = new this.$.$mol_dimmer();
+			(obj.haystack) = () => ((this?.text()));
+			(obj.needle) = () => ((this?.highlight()));
+			return obj;
+		}
+		highlight(){
+			return "";
+		}
+		content(){
+			return "";
+		}
+		note(){
+			const obj = new this.$.$kimght_limbus_note_data();
+			(obj.language) = (next) => ((this?.language()));
+			return obj;
+		}
+		sub(){
+			return [(this?.Text())];
+		}
+	};
+	($mol_mem(($.$kimght_limbus_note_block.prototype), "language"));
+	($mol_mem(($.$kimght_limbus_note_block.prototype), "Text"));
+	($mol_mem(($.$kimght_limbus_note_block.prototype), "note"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $kimght_limbus_note_block extends $.$kimght_limbus_note_block {
+            text() {
+                return this.note().desc();
+            }
+        }
+        $$.$kimght_limbus_note_block = $kimght_limbus_note_block;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($kimght_limbus_note_block, {
+            background: { color: $mol_theme.card, },
+            border: { radius: $mol_gap.round, },
+            padding: $mol_gap.text,
+            wordBreak: "break-word",
+            whiteSpace: "pre-wrap"
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$kimght_limbus_note_page) = class $kimght_limbus_note_page extends ($.$mol_page) {
+		notes_list(){
+			return null;
+		}
+		content_language(){
+			return "";
+		}
+		note(id){
+			const obj = new this.$.$kimght_limbus_note_data();
+			return obj;
+		}
+		Copy_button(){
+			const obj = new this.$.$mol_button_copy();
+			(obj.text) = () => ((this?.chapter_id()));
+			(obj.hint) = () => ("Скопировать");
+			return obj;
+		}
+		Search_toggle_icon(){
+			const obj = new this.$.$mol_icon_magnify();
+			return obj;
+		}
+		search_enabled(next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		Search_toggle(){
+			const obj = new this.$.$mol_check_icon();
+			(obj.hint) = () => ("Поиск");
+			(obj.Icon) = () => ((this?.Search_toggle_icon()));
+			(obj.checked) = (next) => ((this?.search_enabled(next)));
+			return obj;
+		}
+		language(next){
+			if(next !== undefined) return next;
+			return "ru_mtl";
+		}
+		languages(){
+			return {
+				"en": "Английский", 
+				"kr": "Корейский", 
+				"jp": "Японский", 
+				"ru_mtl": "Русский (MTL)", 
+				"ru_crescent": "Русский (Crescent)", 
+				"ru_divine": "Русский (Divine)"
+			};
+		}
+		Language_select(){
+			const obj = new this.$.$mol_select();
+			(obj.value) = (next) => ((this?.language(next)));
+			(obj.dictionary) = () => ((this?.languages()));
+			return obj;
+		}
+		search(next){
+			if(next !== undefined) return next;
+			return "";
+		}
+		search_end(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Search(){
+			const obj = new this.$.$mol_search_jumper();
+			(obj.query) = (next) => ((this?.search(next)));
+			(obj.Root) = () => ((this?.Body()));
+			(obj.escape) = (next) => ((this?.search_end(next)));
+			return obj;
+		}
+		search_start(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Hotkeys(){
+			const obj = new this.$.$mol_hotkey();
+			(obj.mod_ctrl) = () => (true);
+			(obj.key) = () => ({"F": (next) => (this?.search_start(next))});
+			return obj;
+		}
+		title(){
+			return "Limbus Company";
+		}
+		prefix(){
+			return "Limbus Company";
+		}
+		Blocks(){
+			const obj = new this.$.$mol_list();
+			(obj.rows) = () => ((this?.notes_list()));
+			(obj.attr) = () => ({"lang": (this?.content_language())});
+			return obj;
+		}
+		Block(id){
+			const obj = new this.$.$kimght_limbus_note_block();
+			(obj.note) = () => ((this?.note(id)));
+			(obj.highlight) = () => ((this?.search()));
+			return obj;
+		}
+		tools(){
+			return [
+				(this?.Copy_button()), 
+				(this?.Search_toggle()), 
+				(this?.Language_select())
+			];
+		}
+		head(){
+			return [
+				(this?.Title()), 
+				(this?.Tools()), 
+				(this?.Search())
+			];
+		}
+		body(){
+			return [(this?.Blocks())];
+		}
+		plugins(){
+			return [(this?.Hotkeys())];
+		}
+	};
+	($mol_mem_key(($.$kimght_limbus_note_page.prototype), "note"));
+	($mol_mem(($.$kimght_limbus_note_page.prototype), "Copy_button"));
+	($mol_mem(($.$kimght_limbus_note_page.prototype), "Search_toggle_icon"));
+	($mol_mem(($.$kimght_limbus_note_page.prototype), "search_enabled"));
+	($mol_mem(($.$kimght_limbus_note_page.prototype), "Search_toggle"));
+	($mol_mem(($.$kimght_limbus_note_page.prototype), "language"));
+	($mol_mem(($.$kimght_limbus_note_page.prototype), "Language_select"));
+	($mol_mem(($.$kimght_limbus_note_page.prototype), "search"));
+	($mol_mem(($.$kimght_limbus_note_page.prototype), "search_end"));
+	($mol_mem(($.$kimght_limbus_note_page.prototype), "Search"));
+	($mol_mem(($.$kimght_limbus_note_page.prototype), "search_start"));
+	($mol_mem(($.$kimght_limbus_note_page.prototype), "Hotkeys"));
+	($mol_mem(($.$kimght_limbus_note_page.prototype), "Blocks"));
+	($mol_mem_key(($.$kimght_limbus_note_page.prototype), "Block"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $kimght_limbus_note_page extends $.$kimght_limbus_note_page {
+            notes() {
+                return this.$.$kimght_limbus_note_data.list({
+                    language: this.language(),
+                    prefix: this.prefix(),
+                });
+            }
+            notes_list() {
+                return this.notes()
+                    .map((line) => this.Block(line.id()));
+            }
+            note(id) {
+                return this.$.$kimght_limbus_note_data.item({ id, language: this.language() });
+            }
+            language(next) {
+                if (next) {
+                    this.$.$mol_state_local.value("$kimght_limbus_language", String(next));
+                    return next;
+                }
+                return this.$.$mol_state_local.value("$kimght_limbus_language") || "ru_mtl";
+            }
+            content_language() {
+                const languages = {
+                    "ru_mtl": "ru",
+                    "ru_crescent": "ru",
+                    "ru_divine": "ru",
+                    "en": "en",
+                    "jp": "jp",
+                    "kr": "kr",
+                };
+                return languages[this.language()] ?? "en";
+            }
+            search_enabled(next) {
+                if (next === undefined) {
+                    return false;
+                }
+                if (next) {
+                    this.Search().Query().focused(true);
+                }
+                else {
+                    this.search("");
+                }
+                return next;
+            }
+            search_start(event) {
+                this.search_enabled(true);
+                event.preventDefault();
+            }
+            search_end(event) {
+                this.search_enabled(false);
+                this.Search_toggle().focused(true);
+                event.preventDefault();
+            }
+            head() {
+                return [
+                    this.Title(),
+                    this.Tools(),
+                    ...this.search_enabled() ? [this.Search()] : [],
+                ];
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_note_page.prototype, "notes", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_note_page.prototype, "notes_list", null);
+        __decorate([
+            $mol_mem_key
+        ], $kimght_limbus_note_page.prototype, "note", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_note_page.prototype, "language", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_note_page.prototype, "content_language", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_note_page.prototype, "search_enabled", null);
+        $$.$kimght_limbus_note_page = $kimght_limbus_note_page;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        const { per } = $mol_style_unit;
+        $mol_style_define($kimght_limbus_note_page, {
+            Body_content: {
+                gap: $mol_gap.block,
+            },
+            Search: {
+                alignSelf: 'stretch',
+                flex: {
+                    shrink: 0,
+                    basis: per(100),
+                },
+            },
+            Blocks: {
+                gap: $mol_gap.block,
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$kimght_limbus_note_list) = class $kimght_limbus_note_list extends ($.$mol_book2) {
+		note_folder(id){
+			return "";
+		}
+		item_title(id){
+			return "";
+		}
+		Item(id){
+			const obj = new this.$.$mol_link();
+			(obj.arg) = () => ({"folder": (this?.note_folder(id))});
+			(obj.sub) = () => ([(this?.item_title(id))]);
+			return obj;
+		}
+		Notes_list(){
+			const obj = new this.$.$kimght_tag_tree();
+			(obj.Item) = (id) => ((this?.Item(id)));
+			(obj.levels_expanded) = () => (0);
+			(obj.ids_tags) = () => ((this?.toc()));
+			return obj;
+		}
+		folder_title(id){
+			return "";
+		}
+		Notes_list_page(){
+			const obj = new this.$.$mol_page();
+			(obj.title) = () => ("📝 Записки");
+			(obj.body) = () => ([(this?.Notes_list())]);
+			return obj;
+		}
+		Note_page(id){
+			const obj = new this.$.$kimght_limbus_note_page();
+			(obj.prefix) = () => ((this?.note_folder(id)));
+			(obj.title) = () => ((this?.folder_title(id)));
+			return obj;
+		}
+	};
+	($mol_mem_key(($.$kimght_limbus_note_list.prototype), "Item"));
+	($mol_mem(($.$kimght_limbus_note_list.prototype), "Notes_list"));
+	($mol_mem(($.$kimght_limbus_note_list.prototype), "Notes_list_page"));
+	($mol_mem_key(($.$kimght_limbus_note_list.prototype), "Note_page"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $kimght_limbus_note_list extends $.$kimght_limbus_note_list {
+            current_chapter() {
+                if (this.note_active() !== null) {
+                    return [this.Note_page(this.note_active())];
+                }
+                return [];
+            }
+            pages() {
+                return [
+                    this.Notes_list_page(),
+                    ...this.current_chapter()
+                ];
+            }
+            item_title(path) {
+                return path.at(-1);
+            }
+            note_folder(path) {
+                return path.join("/");
+            }
+            folder_title(id) {
+                return id.join(" / ");
+            }
+            note_active() {
+                const slug = this.$.$mol_state_arg.value("folder");
+                if (!slug)
+                    return null;
+                let path = slug.split("/");
+                if (path.at(-1) === path.at(-2)) {
+                    return path.slice(0, -1);
+                }
+                return path;
+            }
+            notes() {
+                return this.$.$kimght_limbus_note_data.meta().notes;
+            }
+            toc() {
+                const notes = {};
+                for (let i = 0; i < this.notes().length; i++) {
+                    const last = this.notes()[i].path.at(-1);
+                    notes[last] = [this.notes()[i].path.join("/")];
+                }
+                return notes;
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_note_list.prototype, "pages", null);
+        __decorate([
+            $mol_mem_key
+        ], $kimght_limbus_note_list.prototype, "item_title", null);
+        __decorate([
+            $mol_mem_key
+        ], $kimght_limbus_note_list.prototype, "note_folder", null);
+        __decorate([
+            $mol_mem_key
+        ], $kimght_limbus_note_list.prototype, "folder_title", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_note_list.prototype, "note_active", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_note_list.prototype, "notes", null);
+        __decorate([
+            $mol_mem
+        ], $kimght_limbus_note_list.prototype, "toc", null);
+        $$.$kimght_limbus_note_list = $kimght_limbus_note_list;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        const { rem } = $mol_style_unit;
+        $mol_style_define($kimght_limbus_note_list, {
+            Notes_list_page: {
+                flex: {
+                    basis: rem(20),
+                }
+            },
+            Note_page: {
+                flex: {
+                    basis: rem(50),
+                }
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$mol_stack) = class $mol_stack extends ($.$mol_view) {};
 
 
@@ -11615,6 +12270,10 @@ var $;
 			const obj = new this.$.$kimght_limbus_identity_page();
 			return obj;
 		}
+		Notes(){
+			const obj = new this.$.$kimght_limbus_note_list();
+			return obj;
+		}
 		Info_text(){
 			const obj = new this.$.$mol_text();
 			(obj.text) = () => ("![Тубаретка](/kimght/images/tubaretka.webp)\n\n# Полезные ссылки\n\n* [Машинный русификатор](https://github.com/kimght/LimbusCompanyRuMTL)\n* [Ручной русификатор от Crescent-Corporation](https://github.com/Crescent-Corporation/LimbusCompanyBusRUS)\n* [Ручной русификатор от Divine-Company](https://github.com/Divine-Company/DivineCompany_RussianTranslationDepartment)\n* [Оригинальный китайский мод](https://github.com/LocalizeLimbusCompany/LocalizeLimbusCompany)\n\n# Хонорабле ментион\n* Датамайн: **lunartique07**\n* Правки: **KJHater**, **DAFTPUSiK**");
@@ -11639,6 +12298,7 @@ var $;
 			return {
 				"story": (this?.Story()), 
 				"ids": (this?.Identities()), 
+				"notes": (this?.Notes()), 
 				"info": (this?.Info())
 			};
 		}
@@ -11648,6 +12308,7 @@ var $;
 	($mol_mem(($.$kimght_app.prototype), "Lights"));
 	($mol_mem(($.$kimght_app.prototype), "Story"));
 	($mol_mem(($.$kimght_app.prototype), "Identities"));
+	($mol_mem(($.$kimght_app.prototype), "Notes"));
 	($mol_mem(($.$kimght_app.prototype), "Info_text"));
 	($mol_mem(($.$kimght_app.prototype), "Info"));
 
