@@ -2,7 +2,7 @@ $kimght_limbus_story $mol_book2
 	Chapters_list_page $mol_page
 		title \📕 История
 		body /
-			<= Chapters_list $mol_tag_tree
+			<= Chapters_list $kimght_tag_tree
 				Item* <= Item* $mol_link
 					arg *
 						chapter <= chapter_slug* \
