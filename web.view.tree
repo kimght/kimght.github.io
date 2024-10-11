@@ -382,7 +382,7 @@ $mol_expander $mol_list
 		<= Content $mol_list
 			rows <= content /
 
-$mol_tag_tree $mol_list
+$kimght_tag_tree $mol_list
 	path /string
 	ids_tags *
 	ids /
@@ -401,7 +401,7 @@ $mol_tag_tree $mol_list
 		expandable true
 		expanded? <=> tag_expanded*? false
 		title <= tag_name* \
-		content / <= Tag_tree* $mol_tag_tree
+		content / <= Tag_tree* $kimght_tag_tree
 			ids_tags <= ids_tags
 			path <= tag_path* /string
 			Item* <= Item*
@@ -630,7 +630,7 @@ $kimght_limbus_story $mol_book2
 	Chapters_list_page $mol_page
 		title \📕 История
 		body /
-			<= Chapters_list $mol_tag_tree
+			<= Chapters_list $kimght_tag_tree
 				Item* <= Item* $mol_link
 					arg *
 						chapter <= chapter_slug* \
@@ -653,6 +653,33 @@ $kimght_limbus_story $mol_book2
 		chapter_id <= chapter_id* \
 		title <= chapter_title* \
 		Next_link <= next_link* null
+
+$mol_tag_tree $mol_list
+	path /string
+	ids_tags *
+	ids /
+	tags /string
+	levels_expanded 0
+	sub /$mol_view
+		^ tag_list /$mol_view
+		^ item_list /$mol_view
+	tag_name* \
+	tag_list /$mol_view
+	item_list /$mol_view
+	Item* $mol_view
+		sub /
+			<= item_title* \
+	Tag* $mol_expander
+		expandable true
+		expanded? <=> tag_expanded*? false
+		title <= tag_name* \
+		content / <= Tag_tree* $mol_tag_tree
+			ids_tags <= ids_tags
+			path <= tag_path* /string
+			Item* <= Item*
+			item_title* <= item_title*
+			tag_expanded*? <=> tag_expanded*?
+			tag_name* <= tag_name*
 
 $kimght_limbus_identity_page $mol_book2
 	Identities_list_page $mol_page
@@ -684,33 +711,6 @@ $kimght_limbus_identity_page $mol_book2
 		Art_post <= Identity_uptie_art* $mol_image
 			uri <= identity_uptie_art_url* \null
 			title <= identity_title* \
-
-$kimght_tag_tree $mol_list
-	path /string
-	ids_tags *
-	ids /
-	tags /string
-	levels_expanded 0
-	sub /$mol_view
-		^ tag_list /$mol_view
-		^ item_list /$mol_view
-	tag_name* \
-	tag_list /$mol_view
-	item_list /$mol_view
-	Item* $mol_view
-		sub /
-			<= item_title* \
-	Tag* $mol_expander
-		expandable true
-		expanded? <=> tag_expanded*? false
-		title <= tag_name* \
-		content / <= Tag_tree* $kimght_tag_tree
-			ids_tags <= ids_tags
-			path <= tag_path* /string
-			Item* <= Item*
-			item_title* <= item_title*
-			tag_expanded*? <=> tag_expanded*?
-			tag_name* <= tag_name*
 
 $kimght_limbus_note_block $mol_view
 	highlight \

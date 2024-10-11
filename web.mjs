@@ -6979,7 +6979,7 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$mol_tag_tree) = class $mol_tag_tree extends ($.$mol_list) {
+	($.$kimght_tag_tree) = class $kimght_tag_tree extends ($.$mol_list) {
 		tag_list(){
 			return [];
 		}
@@ -7000,7 +7000,7 @@ var $;
 			return [];
 		}
 		Tag_tree(id){
-			const obj = new this.$.$mol_tag_tree();
+			const obj = new this.$.$kimght_tag_tree();
 			(obj.ids_tags) = () => ((this?.ids_tags()));
 			(obj.path) = () => ((this?.tag_path(id)));
 			(obj.Item) = (id) => ((this?.Item(id)));
@@ -7041,10 +7041,10 @@ var $;
 			return obj;
 		}
 	};
-	($mol_mem_key(($.$mol_tag_tree.prototype), "tag_expanded"));
-	($mol_mem_key(($.$mol_tag_tree.prototype), "Tag_tree"));
-	($mol_mem_key(($.$mol_tag_tree.prototype), "Item"));
-	($mol_mem_key(($.$mol_tag_tree.prototype), "Tag"));
+	($mol_mem_key(($.$kimght_tag_tree.prototype), "tag_expanded"));
+	($mol_mem_key(($.$kimght_tag_tree.prototype), "Tag_tree"));
+	($mol_mem_key(($.$kimght_tag_tree.prototype), "Item"));
+	($mol_mem_key(($.$kimght_tag_tree.prototype), "Tag"));
 
 
 ;
@@ -7084,7 +7084,7 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $mol_tag_tree extends $.$mol_tag_tree {
+        class $kimght_tag_tree extends $.$kimght_tag_tree {
             ids() {
                 const prefix = this.path().join('/');
                 const ids_tags = this.ids_tags();
@@ -7111,12 +7111,6 @@ var $;
                         stat.set(tag, (stat.get(tag) ?? 0) + 1);
                     }
                 }
-                for (let [tag, count] of stat) {
-                    if (count < 2)
-                        stat.delete(tag);
-                    if (count > ids.length - 2)
-                        stat.delete(tag);
-                }
                 const prefixes = [...new Set([...stat.keys()].map(tag => tag.replace(/\/.*/, '')))].sort($mol_compare_text());
                 return prefixes;
             }
@@ -7141,20 +7135,20 @@ var $;
         }
         __decorate([
             $mol_mem
-        ], $mol_tag_tree.prototype, "ids", null);
+        ], $kimght_tag_tree.prototype, "ids", null);
         __decorate([
             $mol_mem
-        ], $mol_tag_tree.prototype, "item_list", null);
+        ], $kimght_tag_tree.prototype, "item_list", null);
         __decorate([
             $mol_mem
-        ], $mol_tag_tree.prototype, "tags", null);
+        ], $kimght_tag_tree.prototype, "tags", null);
         __decorate([
             $mol_mem
-        ], $mol_tag_tree.prototype, "tag_list", null);
+        ], $kimght_tag_tree.prototype, "tag_list", null);
         __decorate([
             $mol_mem_key
-        ], $mol_tag_tree.prototype, "tag_expanded", null);
-        $$.$mol_tag_tree = $mol_tag_tree;
+        ], $kimght_tag_tree.prototype, "tag_expanded", null);
+        $$.$kimght_tag_tree = $kimght_tag_tree;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -7162,7 +7156,42 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/tag/tree/tree.view.css", "[mol_tag_tree_tag_content] {\n\tpadding-left: var(--mol_gap_block);\n    margin-left: var(--mol_gap_block);\n    box-shadow: inset 1px 0 0 0 var(--mol_theme_line);\n}\n\n[mol_tag_tree_item] {\n\tpadding: var(--mol_gap_text);\n\tpadding-left: 0;\n}\n\n[mol_tag_tree_tag_trigger_icon] {\n    margin-left: -1rem;\n    margin-right: -0.25rem;\n}\n");
+    $mol_style_attach("kimght/tag/tree/tree.view.css", "[kimght_tag_tree_tag_content] {\n\tpadding-left: var(--mol_gap_block);\n\tmargin-left: var(--mol_gap_block);\n\tbox-shadow: inset 1px 0 0 0 var(--mol_theme_line);\n}\n\n[kimght_tag_tree_item] {\n\tpadding: var(--mol_gap_text);\n\tpadding-left: 0;\n}\n\n[kimght_tag_tree_tag_trigger_icon] {\n\tmargin-left: -1rem;\n\tmargin-right: -0.25rem;\n}\n");
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        const { rem, px } = $mol_style_unit;
+        $mol_style_define($kimght_tag_tree, {
+            Tag: {
+                Content: {
+                    padding: { left: $mol_gap.block },
+                    margin: { left: $mol_gap.block },
+                    boxShadow: `inset 1px 0 0 0 ${$mol_theme.line}`,
+                },
+                Trigger: {
+                    Icon: {
+                        margin: {
+                            left: rem(-1),
+                            right: rem(-0.25),
+                        }
+                    }
+                }
+            },
+            Item: {
+                padding: {
+                    top: $mol_gap.text,
+                    right: $mol_gap.text,
+                    bottom: $mol_gap.text,
+                    left: 0,
+                },
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
 ;
@@ -8901,7 +8930,7 @@ var $;
 			return {};
 		}
 		Chapters_list(){
-			const obj = new this.$.$mol_tag_tree();
+			const obj = new this.$.$kimght_tag_tree();
 			(obj.Item) = (id) => ((this?.Item(id)));
 			(obj.tag_name) = (id) => ((this?.tag_name(id)));
 			(obj.levels_expanded) = () => (0);
@@ -9168,6 +9197,165 @@ var $;
         $mol_mem
     ], $kimght_limbus_identity, "list", null);
     $.$kimght_limbus_identity = $kimght_limbus_identity;
+})($ || ($ = {}));
+
+;
+	($.$mol_tag_tree) = class $mol_tag_tree extends ($.$mol_list) {
+		tag_list(){
+			return [];
+		}
+		item_list(){
+			return [];
+		}
+		item_title(id){
+			return "";
+		}
+		tag_expanded(id, next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		tag_name(id){
+			return "";
+		}
+		tag_path(id){
+			return [];
+		}
+		Tag_tree(id){
+			const obj = new this.$.$mol_tag_tree();
+			(obj.ids_tags) = () => ((this?.ids_tags()));
+			(obj.path) = () => ((this?.tag_path(id)));
+			(obj.Item) = (id) => ((this?.Item(id)));
+			(obj.item_title) = (id) => ((this?.item_title(id)));
+			(obj.tag_expanded) = (id, next) => ((this?.tag_expanded(id, next)));
+			(obj.tag_name) = (id) => ((this?.tag_name(id)));
+			return obj;
+		}
+		path(){
+			return [];
+		}
+		ids_tags(){
+			return {};
+		}
+		ids(){
+			return [];
+		}
+		tags(){
+			return [];
+		}
+		levels_expanded(){
+			return 0;
+		}
+		sub(){
+			return [...(this.tag_list()), ...(this.item_list())];
+		}
+		Item(id){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this?.item_title(id))]);
+			return obj;
+		}
+		Tag(id){
+			const obj = new this.$.$mol_expander();
+			(obj.expandable) = () => (true);
+			(obj.expanded) = (next) => ((this?.tag_expanded(id, next)));
+			(obj.title) = () => ((this?.tag_name(id)));
+			(obj.content) = () => ([(this?.Tag_tree(id))]);
+			return obj;
+		}
+	};
+	($mol_mem_key(($.$mol_tag_tree.prototype), "tag_expanded"));
+	($mol_mem_key(($.$mol_tag_tree.prototype), "Tag_tree"));
+	($mol_mem_key(($.$mol_tag_tree.prototype), "Item"));
+	($mol_mem_key(($.$mol_tag_tree.prototype), "Tag"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_tag_tree extends $.$mol_tag_tree {
+            ids() {
+                const prefix = this.path().join('/');
+                const ids_tags = this.ids_tags();
+                return Object.keys(ids_tags).filter(id => ids_tags[id].some((tag) => tag.startsWith(prefix)));
+            }
+            item_list() {
+                const path = this.path();
+                const grouped = new Set(this.tags().flatMap(tag => this.Tag_tree(tag).ids()));
+                return this.ids()
+                    .filter(id => !grouped.has(id))
+                    .sort($mol_compare_text())
+                    .map(id => this.Item([...path, id]));
+            }
+            tags() {
+                const stat = new Map();
+                const ids_tags = this.ids_tags();
+                const ids = this.ids();
+                const prefix = this.path().join('/');
+                for (let id of ids) {
+                    for (let tag of ids_tags[id]) {
+                        if (prefix && !tag.startsWith(prefix + '/'))
+                            continue;
+                        tag = tag.slice(prefix.length).replace(/^\//, '');
+                        stat.set(tag, (stat.get(tag) ?? 0) + 1);
+                    }
+                }
+                for (let [tag, count] of stat) {
+                    if (count < 2)
+                        stat.delete(tag);
+                    if (count > ids.length - 2)
+                        stat.delete(tag);
+                }
+                const prefixes = [...new Set([...stat.keys()].map(tag => tag.replace(/\/.*/, '')))].sort($mol_compare_text());
+                return prefixes;
+            }
+            tag_list() {
+                return this.tags().map(tag => this.Tag([tag]));
+            }
+            tag_path(id) {
+                return [...this.path(), id];
+            }
+            tag_expanded(id, next) {
+                return next ?? this.tag_expanded_default(id);
+            }
+            tag_expanded_default(id) {
+                return this.levels_expanded() >= id.length;
+            }
+            tag_name(id) {
+                return id;
+            }
+            item_title(id) {
+                return id.at(-1);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_tag_tree.prototype, "ids", null);
+        __decorate([
+            $mol_mem
+        ], $mol_tag_tree.prototype, "item_list", null);
+        __decorate([
+            $mol_mem
+        ], $mol_tag_tree.prototype, "tags", null);
+        __decorate([
+            $mol_mem
+        ], $mol_tag_tree.prototype, "tag_list", null);
+        __decorate([
+            $mol_mem_key
+        ], $mol_tag_tree.prototype, "tag_expanded", null);
+        $$.$mol_tag_tree = $mol_tag_tree;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/tag/tree/tree.view.css", "[mol_tag_tree_tag_content] {\n\tpadding-left: var(--mol_gap_block);\n    margin-left: var(--mol_gap_block);\n    box-shadow: inset 1px 0 0 0 var(--mol_theme_line);\n}\n\n[mol_tag_tree_item] {\n\tpadding: var(--mol_gap_text);\n\tpadding-left: 0;\n}\n\n[mol_tag_tree_tag_trigger_icon] {\n    margin-left: -1rem;\n    margin-right: -0.25rem;\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -9512,194 +9700,6 @@ var $;
         $mol_mem
     ], $kimght_limbus_note_data, "meta", null);
     $.$kimght_limbus_note_data = $kimght_limbus_note_data;
-})($ || ($ = {}));
-
-;
-	($.$kimght_tag_tree) = class $kimght_tag_tree extends ($.$mol_list) {
-		tag_list(){
-			return [];
-		}
-		item_list(){
-			return [];
-		}
-		item_title(id){
-			return "";
-		}
-		tag_expanded(id, next){
-			if(next !== undefined) return next;
-			return false;
-		}
-		tag_name(id){
-			return "";
-		}
-		tag_path(id){
-			return [];
-		}
-		Tag_tree(id){
-			const obj = new this.$.$kimght_tag_tree();
-			(obj.ids_tags) = () => ((this?.ids_tags()));
-			(obj.path) = () => ((this?.tag_path(id)));
-			(obj.Item) = (id) => ((this?.Item(id)));
-			(obj.item_title) = (id) => ((this?.item_title(id)));
-			(obj.tag_expanded) = (id, next) => ((this?.tag_expanded(id, next)));
-			(obj.tag_name) = (id) => ((this?.tag_name(id)));
-			return obj;
-		}
-		path(){
-			return [];
-		}
-		ids_tags(){
-			return {};
-		}
-		ids(){
-			return [];
-		}
-		tags(){
-			return [];
-		}
-		levels_expanded(){
-			return 0;
-		}
-		sub(){
-			return [...(this.tag_list()), ...(this.item_list())];
-		}
-		Item(id){
-			const obj = new this.$.$mol_view();
-			(obj.sub) = () => ([(this?.item_title(id))]);
-			return obj;
-		}
-		Tag(id){
-			const obj = new this.$.$mol_expander();
-			(obj.expandable) = () => (true);
-			(obj.expanded) = (next) => ((this?.tag_expanded(id, next)));
-			(obj.title) = () => ((this?.tag_name(id)));
-			(obj.content) = () => ([(this?.Tag_tree(id))]);
-			return obj;
-		}
-	};
-	($mol_mem_key(($.$kimght_tag_tree.prototype), "tag_expanded"));
-	($mol_mem_key(($.$kimght_tag_tree.prototype), "Tag_tree"));
-	($mol_mem_key(($.$kimght_tag_tree.prototype), "Item"));
-	($mol_mem_key(($.$kimght_tag_tree.prototype), "Tag"));
-
-
-;
-"use strict";
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $kimght_tag_tree extends $.$kimght_tag_tree {
-            ids() {
-                const prefix = this.path().join('/');
-                const ids_tags = this.ids_tags();
-                return Object.keys(ids_tags).filter(id => ids_tags[id].some((tag) => tag.startsWith(prefix)));
-            }
-            item_list() {
-                const path = this.path();
-                const grouped = new Set(this.tags().flatMap(tag => this.Tag_tree(tag).ids()));
-                return this.ids()
-                    .filter(id => !grouped.has(id))
-                    .sort($mol_compare_text())
-                    .map(id => this.Item([...path, id]));
-            }
-            tags() {
-                const stat = new Map();
-                const ids_tags = this.ids_tags();
-                const ids = this.ids();
-                const prefix = this.path().join('/');
-                for (let id of ids) {
-                    for (let tag of ids_tags[id]) {
-                        if (prefix && !tag.startsWith(prefix + '/'))
-                            continue;
-                        tag = tag.slice(prefix.length).replace(/^\//, '');
-                        stat.set(tag, (stat.get(tag) ?? 0) + 1);
-                    }
-                }
-                const prefixes = [...new Set([...stat.keys()].map(tag => tag.replace(/\/.*/, '')))].sort($mol_compare_text());
-                return prefixes;
-            }
-            tag_list() {
-                return this.tags().map(tag => this.Tag([tag]));
-            }
-            tag_path(id) {
-                return [...this.path(), id];
-            }
-            tag_expanded(id, next) {
-                return next ?? this.tag_expanded_default(id);
-            }
-            tag_expanded_default(id) {
-                return this.levels_expanded() >= id.length;
-            }
-            tag_name(id) {
-                return id;
-            }
-            item_title(id) {
-                return id.at(-1);
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $kimght_tag_tree.prototype, "ids", null);
-        __decorate([
-            $mol_mem
-        ], $kimght_tag_tree.prototype, "item_list", null);
-        __decorate([
-            $mol_mem
-        ], $kimght_tag_tree.prototype, "tags", null);
-        __decorate([
-            $mol_mem
-        ], $kimght_tag_tree.prototype, "tag_list", null);
-        __decorate([
-            $mol_mem_key
-        ], $kimght_tag_tree.prototype, "tag_expanded", null);
-        $$.$kimght_tag_tree = $kimght_tag_tree;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("kimght/tag/tree/tree.view.css", "[kimght_tag_tree_tag_content] {\n\tpadding-left: var(--mol_gap_block);\n\tmargin-left: var(--mol_gap_block);\n\tbox-shadow: inset 1px 0 0 0 var(--mol_theme_line);\n}\n\n[kimght_tag_tree_item] {\n\tpadding: var(--mol_gap_text);\n\tpadding-left: 0;\n}\n\n[kimght_tag_tree_tag_trigger_icon] {\n\tmargin-left: -1rem;\n\tmargin-right: -0.25rem;\n}\n");
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        const { rem, px } = $mol_style_unit;
-        $mol_style_define($kimght_tag_tree, {
-            Tag: {
-                Content: {
-                    padding: { left: $mol_gap.block },
-                    margin: { left: $mol_gap.block },
-                    boxShadow: `inset 1px 0 0 0 ${$mol_theme.line}`,
-                },
-                Trigger: {
-                    Icon: {
-                        margin: {
-                            left: rem(-1),
-                            right: rem(-0.25),
-                        }
-                    }
-                }
-            },
-            Item: {
-                padding: {
-                    top: $mol_gap.text,
-                    right: $mol_gap.text,
-                    bottom: $mol_gap.text,
-                    left: 0,
-                },
-            },
-        });
-    })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
 ;
