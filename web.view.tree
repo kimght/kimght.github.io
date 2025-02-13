@@ -227,8 +227,10 @@ $mol_search $mol_pop
 				sub /
 					<= Clear_icon $mol_icon_close
 	bubble_content /$mol_view_content
-		<= Menu $mol_list
-			rows <= menu_items /$mol_view
+		<= Bubble_pane $mol_scroll
+			sub /
+				<= Menu $mol_list
+					rows <= menu_items /$mol_view
 	Suggest* $mol_button_minor
 		click?event <=> suggest_select*?event null
 		sub <= suggest_content* /$mol_view_content
@@ -259,7 +261,7 @@ $mol_link $mol_view
 
 $mol_page $mol_view
 	dom_name \article
-	field *
+	attr *
 		^
 		tabIndex <= tabindex -1
 	sub /
@@ -310,9 +312,10 @@ $mol_book2_catalog $mol_book2
 				<= Menu_filter $mol_search
 					query? <=> menu_filter? \
 				<= Menu_links $mol_list
+					Empty <= Menu_links_empty $mol_view
 					rows <= menu_links /
 						<= Menu_link*0 $mol_link
-							arg <= arg* *
+							arg <= menu_link_arg* <= arg* *
 							sub <= menu_link_content* /
 								<= Menu_link_title* $mol_dimmer
 									needle <= menu_filter
@@ -351,10 +354,10 @@ $mol_check $mol_button_minor
 
 $mol_check_icon $mol_check
 
-$mol_icon_brightness_6 $mol_icon path \M12,18V6A6,6 0 0,1 18,12A6,6 0 0,1 12,18M20,15.31L23.31,12L20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31Z
+$mol_icon_brightness_4 $mol_icon path \M12,18C11.11,18 10.26,17.8 9.5,17.45C11.56,16.5 13,14.42 13,12C13,9.58 11.56,7.5 9.5,6.55C10.26,6.2 11.11,6 12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18M20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31L23.31,12L20,8.69Z
 
 $mol_lights_toggle $mol_check_icon
-	Icon <= Lights_icon $mol_icon_brightness_6
+	Icon <= Lights_icon $mol_icon_brightness_4
 	hint @ \Toggle lights
 	checked? <=> lights? false
 
@@ -737,9 +740,6 @@ $kimght_limbus_note_page $mol_page
 		highlight <= search
 	
 	tools /
-		<= Copy_button $mol_button_copy
-			text <= chapter_id
-			hint \Скопировать
 		<= Search_toggle $mol_check_icon
 			hint \Поиск
 			Icon <= Search_toggle_icon $mol_icon_magnify
@@ -783,7 +783,8 @@ $kimght_limbus_note_list $mol_book2
 						<= item_title* \
 				
 				levels_expanded 0
-				ids_tags <= toc
+				ids_tags * 
+					^ toc *
 	
 	Note_page* $kimght_limbus_note_page
 		prefix <= note_folder* \
@@ -804,7 +805,7 @@ $mol_text_code_token_link $mol_text_code_token
 		href <= uri \
 		target \_blank
 
-$mol_text_code_row $mol_paragraph
+$mol_text_code_line $mol_paragraph
 	text \
 	minimal_height 24
 	numb_showed true
@@ -835,7 +836,7 @@ $mol_text_code $mol_stack
 		<= Rows $mol_list
 			render_visible_only <= render_visible_only false
 			rows <= rows /
-				<= Row*0 $mol_text_code_row
+				<= Row*0 $mol_text_code_line
 					numb_showed <= sidebar_showed
 					numb <= row_numb* 0
 					text <= row_text* \
@@ -1045,7 +1046,7 @@ $mol_text $mol_list
 		dom_name \span
 		type <= line_type* \
 		sub <= line_content* /
-	Code_line* $mol_text_code_row
+	Code_line* $mol_text_code_line
 		numb_showed false
 		highlight <= highlight \
 		text <= line_text* \
