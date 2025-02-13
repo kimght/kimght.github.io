@@ -12,9 +12,6 @@ $kimght_limbus_note_page $mol_page
 		highlight <= search
 	
 	tools /
-		<= Copy_button $mol_button_copy
-			text <= chapter_id
-			hint \Скопировать
 		<= Search_toggle $mol_check_icon
 			hint \Поиск
 			Icon <= Search_toggle_icon $mol_icon_magnify

@@ -10,7 +10,8 @@ $kimght_limbus_note_list $mol_book2
 						<= item_title* \
 				
 				levels_expanded 0
-				ids_tags <= toc
+				ids_tags * 
+					^ toc *
 	
 	Note_page* $kimght_limbus_note_page
 		prefix <= note_folder* \
