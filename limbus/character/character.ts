@@ -15,9 +15,9 @@ namespace $ {
 	} )
 	
 	const character_urls = {
-		en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/NickName.json",
-		kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/NickName.json",
-		jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/NickName.json",
+		en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/NickName.json",
+		kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/NickName.json",
+		jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/NickName.json",
 		ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusLocalizeRU/release/RU/NickName.json",
 		ru_crescent: "https://raw.githubusercontent.com/Crescent-Corporation/LimbusCompanyBusRUS/LC_branch_ORIGINAL/Localize/RU/NickName.json",
 		ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Localize/RU/NickName.json",

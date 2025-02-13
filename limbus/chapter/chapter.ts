@@ -12,9 +12,9 @@ namespace $ {
 	const tag_markup = /<(\w+)[=\w#.]*>(.*?)<\/\1>/s
 	
 	const chapter_prefix_urls = {
-		en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/EN/StoryData",
-		jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/JP/StoryData",
-		kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/Localize/KR/StoryData",
+		en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/EN/StoryData",
+		jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/JP/StoryData",
+		kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/KR/StoryData",
 		ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusLocalizeRU/release/RU/StoryData",
 		ru_crescent: "https://raw.githubusercontent.com/Crescent-Corporation/LimbusCompanyBusRUS/LC_branch_ORIGINAL/Localize/RU/StoryData",
 		ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Localize/RU/StoryData"
