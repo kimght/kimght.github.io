@@ -8963,7 +8963,7 @@ var $;
             return "en";
         }
         name() {
-            this.json()?.name;
+            return this.json()?.name;
         }
         title() {
             return this.json()?.nickName;

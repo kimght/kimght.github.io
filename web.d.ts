@@ -3152,7 +3152,7 @@ declare namespace $ {
         }): $kimght_limbus_character;
         id(): string;
         language(): string;
-        name(): void;
+        name(): string | undefined;
         title(): string | undefined;
         file_name(): string;
         json(next?: typeof $kimght_limbus_character_json.Value): Readonly<{
@@ -3356,7 +3356,7 @@ declare namespace $ {
         chapter_id(): string;
         line_id(): number;
         speaker(): $kimght_limbus_character | undefined;
-        teller(): string | void;
+        teller(): string | undefined;
         title(): string | undefined;
         place(): string | number | undefined;
         text(): string | undefined;
