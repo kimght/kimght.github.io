@@ -8380,7 +8380,7 @@ var $;
 (function ($) {
     $.$kimght_limbus_character_meta_json = $mol_data_record({
         name: $mol_data_string,
-        portraitSpritePath: $mol_data_string,
+        portraitSpritePath: $mol_data_optional($mol_data_string),
         nameTagColor: $mol_data_optional($mol_data_string),
     });
     $.$kimght_limbus_character_json = $mol_data_record({
@@ -8425,7 +8425,7 @@ var $;
         file_name() {
             const meta = this.$.$kimght_limbus_character.meta();
             const meta_item = meta.find(next => next.name === this.id());
-            return meta_item?.portraitSpritePath;
+            return meta_item?.portraitSpritePath ?? "None_Extra";
         }
         json(next) {
             if (!next) {

@@ -3094,17 +3094,23 @@ declare namespace $ {
 
 declare namespace $ {
     const $kimght_limbus_character_meta_json: ((val: {
+        portraitSpritePath?: string | undefined;
         nameTagColor?: string | undefined;
         name: string;
-        portraitSpritePath: string;
     }) => Readonly<{
+        portraitSpritePath?: string | undefined;
         nameTagColor?: string | undefined;
         name: string;
-        portraitSpritePath: string;
     }>) & {
         config: {
             name: (val: string) => string;
-            portraitSpritePath: (val: string) => string;
+            portraitSpritePath: ((val: string | undefined) => string | undefined) & {
+                config: {
+                    sub: (val: string) => string;
+                    fallback: (() => string) | undefined;
+                };
+                Value: string | undefined;
+            };
             nameTagColor: ((val: string | undefined) => string | undefined) & {
                 config: {
                     sub: (val: string) => string;
@@ -3114,9 +3120,9 @@ declare namespace $ {
             };
         };
         Value: Readonly<{
+            portraitSpritePath?: string | undefined;
             nameTagColor?: string | undefined;
             name: string;
-            portraitSpritePath: string;
         }>;
     };
     const $kimght_limbus_character_json: ((val: {
@@ -3148,7 +3154,7 @@ declare namespace $ {
         language(): string;
         name(): void;
         title(): string | undefined;
-        file_name(): string | undefined;
+        file_name(): string;
         json(next?: typeof $kimght_limbus_character_json.Value): Readonly<{
             id: string;
             name: string;
@@ -3160,9 +3166,9 @@ declare namespace $ {
             nickName: string;
         }>[];
         static meta(): readonly Readonly<{
+            portraitSpritePath?: string | undefined;
             nameTagColor?: string | undefined;
             name: string;
-            portraitSpritePath: string;
         }>[];
     }
 }
