@@ -21,12 +21,12 @@ namespace $ {
 	const notes_meta_url = "https://gist.githubusercontent.com/kimght/e5d67c491961eae85f50765a1f337356/raw/dante_notes.json"
 	
 	const notes_prefix_urls = {
-		en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/EN",
-		jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/JP",
-		kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/KR",
-		ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusLocalizeRU/release/RU",
+		en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/EN",
+		jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/JP",
+		kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/KR",
+		ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusCompanyRuMTL/main/localize",
 		ru_crescent: "https://raw.githubusercontent.com/Crescent-Corporation/LimbusCompanyBusRUS/LC_branch_ORIGINAL/Localize/RU",
-		ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Localize/RU"
+		ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Lang/Russian%20-%20Divine%20Company"
 	}
 
 	export class $kimght_limbus_note_data extends $mol_object2 {
