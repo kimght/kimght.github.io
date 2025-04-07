@@ -48,7 +48,7 @@ namespace $ {
 		}
 		
 		name() {
-			this.json()?.name
+			return this.json()?.name
 		}
 
 		title() {
