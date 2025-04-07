@@ -1,7 +1,7 @@
 namespace $ {
 	export const $kimght_limbus_character_meta_json = $mol_data_record( {
 		name: $mol_data_string,
-		portraitSpritePath: $mol_data_string,
+		portraitSpritePath: $mol_data_optional( $mol_data_string ),
 		nameTagColor: $mol_data_optional( $mol_data_string ),
 	} )
 
@@ -58,7 +58,8 @@ namespace $ {
 		file_name() {
 			const meta = this.$.$kimght_limbus_character.meta()
 			const meta_item = meta.find( next => next.name === this.id() )
-			return meta_item?.portraitSpritePath
+
+			return meta_item?.portraitSpritePath ?? "None_Extra"
 		}
 		
 		@ $mol_mem
