@@ -720,7 +720,7 @@ var $;
             return $mol_promise_like(this.cache);
         }
         field() {
-            return this.task.name + '<>';
+            return this.task.name + '()';
         }
         constructor(id, task, host, args) {
             super();
@@ -897,8 +897,17 @@ var $;
         }
         destructor() {
             super.destructor();
-            if ($mol_owning_check(this, this.cache)) {
+            if (!$mol_owning_check(this, this.cache))
+                return;
+            try {
                 this.cache.destructor();
+            }
+            catch (result) {
+                if ($mol_promise_like(result)) {
+                    const error = new Error(`Promise in ${this}.destructor()`);
+                    Object.defineProperty(result, 'stack', { get: () => error.stack });
+                }
+                $mol_fail_hidden(result);
             }
         }
     }
@@ -1088,7 +1097,7 @@ var $;
         if (len !== right.byteLength)
             return false;
         if (left instanceof DataView)
-            return compare_buffer(new Uint8Array(left.buffer, left.byteOffset, left.byteLength), new Uint8Array(right.buffer, left.byteOffset, left.byteLength));
+            return compare_buffer(new Uint8Array(left.buffer, left.byteOffset, left.byteLength), new Uint8Array(right.buffer, right.byteOffset, right.byteLength));
         for (let i = 0; i < len; ++i) {
             if (left[i] !== right[i])
                 return false;
@@ -1802,18 +1811,18 @@ var $;
 (function ($) {
     class $mol_wire_atom extends $mol_wire_fiber {
         static solo(host, task) {
-            const field = task.name + '<>';
+            const field = task.name + '()';
             const existen = Object.getOwnPropertyDescriptor(host ?? task, field)?.value;
             if (existen)
                 return existen;
             const prefix = host?.[Symbol.toStringTag] ?? (host instanceof Function ? $$.$mol_func_name(host) : host);
-            const key = prefix + ('.' + field);
+            const key = prefix + ('.' + task.name + '<>');
             const fiber = new $mol_wire_atom(key, task, host, []);
             (host ?? task)[field] = fiber;
             return fiber;
         }
         static plex(host, task, key) {
-            const field = task.name + '<>';
+            const field = task.name + '()';
             let dict = Object.getOwnPropertyDescriptor(host ?? task, field)?.value;
             const prefix = host?.[Symbol.toStringTag] ?? (host instanceof Function ? $$.$mol_func_name(host) : host);
             const key_str = $mol_key(key);
@@ -2148,17 +2157,41 @@ var $;
         factories.set(val, make);
         return make;
     }
+    const getters = new WeakMap();
+    function get_prop(host, field) {
+        let props = getters.get(host);
+        let get_val = props?.[field];
+        if (get_val)
+            return get_val;
+        get_val = (next) => {
+            if (next !== undefined)
+                host[field] = next;
+            return host[field];
+        };
+        Object.defineProperty(get_val, 'name', { value: field });
+        if (!props) {
+            props = {};
+            getters.set(host, props);
+        }
+        props[field] = get_val;
+        return get_val;
+    }
     function $mol_wire_sync(obj) {
         return new Proxy(obj, {
             get(obj, field) {
                 let val = obj[field];
+                const temp = $mol_wire_task.getter(typeof val === 'function' ? val : get_prop(obj, field));
                 if (typeof val !== 'function')
-                    return val;
-                const temp = $mol_wire_task.getter(val);
+                    return temp(obj, []).sync();
                 return function $mol_wire_sync(...args) {
                     const fiber = temp(obj, args);
                     return fiber.sync();
                 };
+            },
+            set(obj, field, next) {
+                const temp = $mol_wire_task.getter(get_prop(obj, field));
+                temp(obj, [next]).sync();
+                return true;
             },
             construct(obj, args) {
                 const temp = $mol_wire_task.getter(factory(obj));
@@ -2318,9 +2351,16 @@ var $;
         static focused(next, notify) {
             const parents = [];
             let element = next?.[0] ?? $mol_dom_context.document.activeElement;
+            while (element?.shadowRoot) {
+                element = element.shadowRoot.activeElement;
+            }
             while (element) {
                 parents.push(element);
-                element = element.parentNode;
+                const parent = element.parentNode;
+                if (parent instanceof ShadowRoot)
+                    element = parent.host;
+                else
+                    element = parent;
             }
             if (!next || notify)
                 return parents;
@@ -3227,9 +3267,14 @@ var $;
             return $mol_dev_format_span({}, $mol_dev_format_native(this));
         }
         *view_find(check, path = []) {
-            if (check(this))
-                return yield [...path, this];
+            if (path.length === 0 && check(this))
+                return yield [this];
             try {
+                for (const item of this.sub()) {
+                    if (item instanceof $mol_view && check(item)) {
+                        return yield [...path, this, item];
+                    }
+                }
                 for (const item of this.sub()) {
                     if (item instanceof $mol_view) {
                         yield* item.view_find(check, [...path, this]);
@@ -3389,8 +3434,8 @@ var $;
 			if(next !== undefined) return next;
 			return 0;
 		}
-		field(){
-			return {...(super.field()), "tabIndex": (this.tabindex())};
+		attr(){
+			return {...(super.attr()), "tabindex": (this.tabindex())};
 		}
 		event(){
 			return {...(super.event()), "scroll": (next) => (this.event_scroll(next))};
@@ -3680,21 +3725,27 @@ var $;
 
 ;
 	($.$mol_book2) = class $mol_book2 extends ($.$mol_scroll) {
-		pages(){
+		pages_deep(){
 			return [];
+		}
+		pages(){
+			return (this.pages_deep());
+		}
+		Placeholder(){
+			const obj = new this.$.$mol_view();
+			return obj;
+		}
+		placeholders(){
+			return [(this.Placeholder())];
 		}
 		menu_title(){
 			return "";
 		}
 		sub(){
-			return (this.pages());
+			return [...(this.pages()), ...(this.placeholders())];
 		}
 		minimal_width(){
 			return 0;
-		}
-		Placeholder(){
-			const obj = new this.$.$mol_view();
-			return obj;
 		}
 		Gap(id){
 			const obj = new this.$.$mol_view();
@@ -3746,8 +3797,18 @@ var $;
     var $$;
     (function ($$) {
         class $mol_book2 extends $.$mol_book2 {
+            pages_deep() {
+                let result = [];
+                for (const subpage of this.pages()) {
+                    if (subpage instanceof $mol_book2)
+                        result = [...result, ...subpage.pages_deep()];
+                    else
+                        result.push(subpage);
+                }
+                return result;
+            }
             title() {
-                return this.pages().map(page => {
+                return this.pages_deep().map(page => {
                     try {
                         return page?.title();
                     }
@@ -3757,11 +3818,11 @@ var $;
                 }).reverse().filter(Boolean).join(' | ');
             }
             menu_title() {
-                return this.pages()[0]?.title() || this.title();
+                return this.pages_deep()[0]?.title() || this.title();
             }
             sub() {
-                const placeholder = this.Placeholder();
-                const next = [...this.pages(), placeholder];
+                const placeholders = this.placeholders();
+                const next = [...this.pages_deep(), ...placeholders];
                 const prev = $mol_mem_cached(() => this.sub()) ?? [];
                 for (let i = 1; i++;) {
                     const p = prev[prev.length - i];
@@ -3770,7 +3831,7 @@ var $;
                         break;
                     if (p === n)
                         continue;
-                    if (n === placeholder)
+                    if (placeholders.includes(n))
                         continue;
                     new this.$.$mol_after_tick(() => {
                         const b = this.dom_node();
@@ -3785,13 +3846,16 @@ var $;
                 return next;
             }
             bring() {
-                const pages = this.pages();
+                const pages = this.pages_deep();
                 if (pages.length)
                     pages[pages.length - 1].bring();
                 else
                     super.bring();
             }
         }
+        __decorate([
+            $mol_mem
+        ], $mol_book2.prototype, "pages_deep", null);
         __decorate([
             $mol_mem
         ], $mol_book2.prototype, "sub", null);
@@ -5945,7 +6009,7 @@ var $;
                     min = 0;
                     top = Math.ceil(rect?.top ?? 0);
                     while (min < (kids.length - 1)) {
-                        const height = kids[min].minimal_height();
+                        const height = kids[min]?.minimal_height() ?? 0;
                         if (top + height >= limit_top)
                             break;
                         top += height;
@@ -5967,21 +6031,21 @@ var $;
                 }
                 while (anchoring && ((top2 > limit_top) && (min2 > 0))) {
                     --min2;
-                    top2 -= kids[min2].minimal_height();
+                    top2 -= kids[min2]?.minimal_height() ?? 0;
                 }
                 while (bottom2 < limit_bottom && max2 < kids.length) {
-                    bottom2 += kids[max2].minimal_height();
+                    bottom2 += kids[max2]?.minimal_height() ?? 0;
                     ++max2;
                 }
                 return [min2, max2];
             }
             gap_before() {
                 const skipped = this.sub().slice(0, this.view_window()[0]);
-                return Math.max(0, skipped.reduce((sum, view) => sum + view.minimal_height(), 0));
+                return Math.max(0, skipped.reduce((sum, view) => sum + (view?.minimal_height() ?? 0), 0));
             }
             gap_after() {
                 const skipped = this.sub().slice(this.view_window()[1]);
-                return Math.max(0, skipped.reduce((sum, view) => sum + view.minimal_height(), 0));
+                return Math.max(0, skipped.reduce((sum, view) => sum + (view?.minimal_height() ?? 0), 0));
             }
             sub_visible() {
                 return [
@@ -5993,7 +6057,7 @@ var $;
             minimal_height() {
                 return this.sub().reduce((sum, view) => {
                     try {
-                        return sum + view.minimal_height();
+                        return sum + (view?.minimal_height() ?? 0);
                     }
                     catch (error) {
                         $mol_fail_log(error);
@@ -7299,8 +7363,16 @@ var $;
 			(obj.sub) = () => ((this.menu_link_content(id)));
 			return obj;
 		}
+		menu_item_content(id){
+			return [(this.Menu_link(id))];
+		}
+		Menu_item(id){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ((this.menu_item_content(id)));
+			return obj;
+		}
 		menu_links(){
-			return [(this.Menu_link("0"))];
+			return [(this.Menu_item("0"))];
 		}
 		Menu_links(){
 			const obj = new this.$.$mol_list();
@@ -7357,6 +7429,9 @@ var $;
 		spread_ids_filtered(){
 			return [];
 		}
+		spread_current(){
+			return null;
+		}
 		menu_tools(){
 			return [];
 		}
@@ -7379,6 +7454,7 @@ var $;
 	($mol_mem(($.$mol_book2_catalog.prototype), "Menu_links_empty"));
 	($mol_mem_key(($.$mol_book2_catalog.prototype), "Menu_link_title"));
 	($mol_mem_key(($.$mol_book2_catalog.prototype), "Menu_link"));
+	($mol_mem_key(($.$mol_book2_catalog.prototype), "Menu_item"));
 	($mol_mem(($.$mol_book2_catalog.prototype), "Menu_links"));
 	($mol_mem(($.$mol_book2_catalog.prototype), "Menu"));
 	($mol_mem(($.$mol_book2_catalog.prototype), "Spread_close_icon"));
@@ -7422,7 +7498,7 @@ var $;
                     this.Menu(),
                     ...spread
                         ? spread instanceof $mol_book2
-                            ? spread.pages()
+                            ? spread.pages_deep()
                             : [spread]
                         : [],
                 ];
@@ -7474,6 +7550,14 @@ var $;
                     || page.title()
                     || spread;
             }
+            spread_current_book() {
+                const spread = this.spread_current();
+                return spread instanceof $mol_book2 ? spread : null;
+            }
+            placeholders() {
+                const spread_placeholders = this.spread_current_book()?.placeholders() ?? [];
+                return spread_placeholders.length ? spread_placeholders : super.placeholders();
+            }
         }
         __decorate([
             $mol_mem
@@ -7493,6 +7577,9 @@ var $;
         __decorate([
             $mol_mem
         ], $mol_book2_catalog.prototype, "spread", null);
+        __decorate([
+            $mol_mem
+        ], $mol_book2_catalog.prototype, "placeholders", null);
         $$.$mol_book2_catalog = $mol_book2_catalog;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -7501,7 +7588,18 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/book2/catalog/catalog.view.css", "[mol_book2_catalog_menu_filter] {\n\tflex-shrink: 0;\n\tflex-grow: 0;\n\talign-self: stretch;\n}\n\n");
+    var $$;
+    (function ($$) {
+        $mol_style_define($mol_book2_catalog, {
+            Menu_filter: {
+                flex: {
+                    shrink: 0,
+                    grow: 0,
+                },
+                alignSelf: 'stretch',
+            },
+        });
+    })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
 ;
@@ -8835,26 +8933,30 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$kimght_limbus_character_json = $mol_data_record({
+    $.$kimght_limbus_character_meta_json = $mol_data_record({
         name: $mol_data_string,
-        krname: $mol_data_string,
-        enname: $mol_data_string,
-        jpname: $mol_data_string,
         portraitSpritePath: $mol_data_string,
+        nameTagColor: $mol_data_optional($mol_data_string),
+    });
+    $.$kimght_limbus_character_json = $mol_data_record({
+        id: $mol_data_string,
+        name: $mol_data_string,
         nickName: $mol_data_string,
-        jpNickName: $mol_data_string,
-        enNickName: $mol_data_string,
     });
     const Character_data = $mol_data_record({
-        assetData: $mol_data_array($.$kimght_limbus_character_json),
+        dataList: $mol_data_array($.$kimght_limbus_character_json),
+    });
+    const character_meta_url = "https://raw.githubusercontent.com/kimght/LimbusStoryImages/main/ScenarioModelCodeAddressable.json";
+    const CharacterMeta_data = $mol_data_record({
+        assetData: $mol_data_array($.$kimght_limbus_character_meta_json),
     });
     const character_urls = {
-        en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/NickName.json",
-        kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/NickName.json",
-        jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/NickName.json",
-        ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusLocalizeRU/release/RU/NickName.json",
+        en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/EN/ScenarioModelCodes-AutoCreated.json",
+        kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/KR/ScenarioModelCodes-AutoCreated.json",
+        jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/JP/ScenarioModelCodes-AutoCreated.json",
+        ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusCompanyRuMTL/main/localize/ScenarioModelCodes-AutoCreated.json",
         ru_crescent: "https://raw.githubusercontent.com/Crescent-Corporation/LimbusCompanyBusRUS/LC_branch_ORIGINAL/Localize/RU/NickName.json",
-        ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Localize/RU/NickName.json",
+        ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Lang/Russian%20-%20Divine%20Company/ScenarioModelCodes-AutoCreated.json",
     };
     class $kimght_limbus_character extends $mol_object2 {
         static item({ id, language }) {
@@ -8870,31 +8972,21 @@ var $;
             return "en";
         }
         name() {
-            if (this.language() === "en") {
-                return this.json()?.enname;
-            }
-            if (this.language() === "jp") {
-                return this.json()?.jpname;
-            }
-            return this.json()?.krname;
+            this.json()?.name;
         }
         title() {
-            if (this.language() === "en") {
-                return this.json()?.enNickName;
-            }
-            if (this.language() === "jp") {
-                return this.json()?.jpNickName;
-            }
             return this.json()?.nickName;
         }
         file_name() {
-            return this.json()?.portraitSpritePath;
+            const meta = this.$.$kimght_limbus_character.meta();
+            const meta_item = meta.find(next => next.name === this.id());
+            return meta_item?.portraitSpritePath;
         }
         json(next) {
             if (!next) {
                 next = this.$.$kimght_limbus_character
                     .list(this.language())
-                    .find(next => next.name === this.id());
+                    .find(next => next.id === this.id());
             }
             return next;
         }
@@ -8904,7 +8996,10 @@ var $;
                 language = "en";
             }
             const uri = character_urls[language];
-            return Character_data($mol_fetch.json(uri)).assetData;
+            return Character_data($mol_fetch.json(uri)).dataList;
+        }
+        static meta() {
+            return CharacterMeta_data($mol_fetch.json(character_meta_url)).assetData;
         }
     }
     __decorate([
@@ -8916,6 +9011,9 @@ var $;
     __decorate([
         $mol_mem_key
     ], $kimght_limbus_character, "list", null);
+    __decorate([
+        $mol_mem
+    ], $kimght_limbus_character, "meta", null);
     $.$kimght_limbus_character = $kimght_limbus_character;
 })($ || ($ = {}));
 
@@ -10241,7 +10339,7 @@ var $;
     const Identity_data = $mol_data_record({
         dataList: $mol_data_array($.$kimght_limbus_identity_json),
     });
-    const identity_list_url = "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/EN/Personalities.json";
+    const identity_list_url = "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/EN/Personalities.json";
     const identity_art_prefix_url = "https://raw.githubusercontent.com/kimght/LimbusStoryImages/main";
     class $kimght_limbus_identity extends $mol_object2 {
         static item(id) {
@@ -10708,12 +10806,12 @@ var $;
     });
     const notes_meta_url = "https://gist.githubusercontent.com/kimght/e5d67c491961eae85f50765a1f337356/raw/dante_notes.json";
     const notes_prefix_urls = {
-        en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/EN",
-        jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/JP",
-        kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/KR",
-        ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusLocalizeRU/release/RU",
+        en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/EN",
+        jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/JP",
+        kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/KR",
+        ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusCompanyRuMTL/main/localize",
         ru_crescent: "https://raw.githubusercontent.com/Crescent-Corporation/LimbusCompanyBusRUS/LC_branch_ORIGINAL/Localize/RU",
-        ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Localize/RU"
+        ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Lang/Russian%20-%20Divine%20Company"
     };
     class $kimght_limbus_note_data extends $mol_object2 {
         static item({ id, language }) {
@@ -11511,7 +11609,7 @@ var $;
         'code-keyword': /\b(throw|readonly|unknown|keyof|typeof|never|from|class|struct|interface|type|function|extends|implements|module|namespace|import|export|include|require|var|val|let|const|for|do|while|until|in|out|of|new|if|then|else|switch|case|this|return|async|await|yield|try|catch|break|continue|get|set|public|private|protected|string|boolean|number|null|undefined|true|false|void|int|float|ref)\b/,
         'code-global': /[$]+\w*|\b[A-Z][a-z0-9]+[A-Z]\w*/,
         'code-word': /\w+/,
-        'code-decorator': /@.+/,
+        'code-decorator': /@\s*\S+/,
         'code-tag': /<\/?[\w-]+\/?>?|&\w+;/,
         'code-punctuation': /[\-\[\]\{\}\(\)<=>~!\?@#%&\*_\+\\\/\|;:\.,\^]+?/,
     });
@@ -12408,6 +12506,10 @@ var $;
             }
             message_listener() {
                 return new $mol_dom_listener($mol_dom_context, 'message', $mol_wire_async(this).message_receive);
+            }
+            sub() {
+                this.window();
+                return super.sub();
             }
             message_receive(event) {
                 if (!event)
