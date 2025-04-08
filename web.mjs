@@ -8477,12 +8477,12 @@ var $;
     const color_markup = /<color=(#\w+)>(.*?)<\/color>/s;
     const tag_markup = /<(\w+)[=\w#.]*>(.*?)<\/\1>/s;
     const chapter_prefix_urls = {
-        en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/EN/StoryData",
-        jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/JP/StoryData",
-        kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LLC_Release/main/KR/StoryData",
-        ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusLocalizeRU/release/RU/StoryData",
+        en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/EN/StoryData",
+        jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/JP/StoryData",
+        kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/KR/StoryData",
+        ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusCompanyRuMTL/main/localize/StoryData",
         ru_crescent: "https://raw.githubusercontent.com/Crescent-Corporation/LimbusCompanyBusRUS/LC_branch_ORIGINAL/Localize/RU/StoryData",
-        ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Localize/RU/StoryData"
+        ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Lang/Russian%20-%20Divine%20Company/StoryData"
     };
     $.$kimght_limbus_chapter_json = $mol_data_array($.$kimght_limbus_chapter_line_json);
     const Chapter_data = $mol_data_record({
