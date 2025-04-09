@@ -15,7 +15,7 @@ namespace $ {
 		en: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/EN/StoryData",
 		jp: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/JP/StoryData",
 		kr: "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/KR/StoryData",
-		ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusCompanyRuMTL/main/localize/StoryData",
+		ru_mtl: "https://raw.githubusercontent.com/kimght/LimbusStory/release",
 		ru_crescent: "https://raw.githubusercontent.com/Crescent-Corporation/LimbusCompanyBusRUS/LC_branch_ORIGINAL/Localize/RU/StoryData",
 		ru_divine: "https://raw.githubusercontent.com/Divine-Company/DivineCompany_RussianTranslationDepartment/main/Lang/Russian%20-%20Divine%20Company/StoryData"
 	}
