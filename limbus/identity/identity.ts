@@ -10,7 +10,7 @@ namespace $ {
 		dataList: $mol_data_array( $kimght_limbus_identity_json ),
 	})
 	
-	const identity_list_url = "https://raw.githubusercontent.com/LocalizeLimbusCompany/LocalizeLimbusCompany/main/EN/Personalities.json"
+	const identity_list_url = "https://raw.githubusercontent.com/x1bViolet/Limbus-Localization-Files/main/Personalities.json"
 	const identity_art_prefix_url = "https://raw.githubusercontent.com/kimght/LimbusStoryImages/main"
 	
 	export class $kimght_limbus_identity extends $mol_object2 {
